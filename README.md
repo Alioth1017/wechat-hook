@@ -1,2 +1,2 @@
-# wecaht-hook
-A wehcat pc hook program
+# wechat-hook
+A wechat pc hook program

@@ -1,0 +1,6 @@
+﻿  stdafx.cpp
+  dllmain.cpp
+  wechat-inject-helper.cpp
+d:\code\杂物间\wechat-hook\wechat-inject-helper\wechat-inject-helper.cpp(33): warning C4477: “sprintf_s”: 格式字符串“%s”需要类型“char *”的参数，但可变参数 1 拥有了类型“DWORD”
+  正在生成代码...
+  wechat-inject-helper.vcxproj -> D:\Code\杂物间\wechat-hook\Debug\wechat-inject-helper.dll

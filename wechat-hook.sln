@@ -1,0 +1,41 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.779
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "wechat-hook", "wechat-hook\wechat-hook.vcxproj", "{62E30BDB-E40B-4694-AB75-62CCF2B6CBC8}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "wechat-inject-helper", "wechat-inject-helper\wechat-inject-helper.vcxproj", "{E65D4DC4-9750-4C15-A6D0-F5313A12D658}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{62E30BDB-E40B-4694-AB75-62CCF2B6CBC8}.Debug|x64.ActiveCfg = Debug|x64
+		{62E30BDB-E40B-4694-AB75-62CCF2B6CBC8}.Debug|x64.Build.0 = Debug|x64
+		{62E30BDB-E40B-4694-AB75-62CCF2B6CBC8}.Debug|x86.ActiveCfg = Debug|Win32
+		{62E30BDB-E40B-4694-AB75-62CCF2B6CBC8}.Debug|x86.Build.0 = Debug|Win32
+		{62E30BDB-E40B-4694-AB75-62CCF2B6CBC8}.Release|x64.ActiveCfg = Release|x64
+		{62E30BDB-E40B-4694-AB75-62CCF2B6CBC8}.Release|x64.Build.0 = Release|x64
+		{62E30BDB-E40B-4694-AB75-62CCF2B6CBC8}.Release|x86.ActiveCfg = Release|Win32
+		{62E30BDB-E40B-4694-AB75-62CCF2B6CBC8}.Release|x86.Build.0 = Release|Win32
+		{E65D4DC4-9750-4C15-A6D0-F5313A12D658}.Debug|x64.ActiveCfg = Debug|x64
+		{E65D4DC4-9750-4C15-A6D0-F5313A12D658}.Debug|x64.Build.0 = Debug|x64
+		{E65D4DC4-9750-4C15-A6D0-F5313A12D658}.Debug|x86.ActiveCfg = Debug|Win32
+		{E65D4DC4-9750-4C15-A6D0-F5313A12D658}.Debug|x86.Build.0 = Debug|Win32
+		{E65D4DC4-9750-4C15-A6D0-F5313A12D658}.Release|x64.ActiveCfg = Release|x64
+		{E65D4DC4-9750-4C15-A6D0-F5313A12D658}.Release|x64.Build.0 = Release|x64
+		{E65D4DC4-9750-4C15-A6D0-F5313A12D658}.Release|x86.ActiveCfg = Release|Win32
+		{E65D4DC4-9750-4C15-A6D0-F5313A12D658}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {22FD0340-66B3-4475-BD3D-A9F9D2CD5FA8}
+	EndGlobalSection
+EndGlobal

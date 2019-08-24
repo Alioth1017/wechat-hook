@@ -23,7 +23,7 @@
     <ProjectGuid>{E65D4DC4-9750-4C15-A6D0-F5313A12D658}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>wechatinjecthelper</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.18362.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

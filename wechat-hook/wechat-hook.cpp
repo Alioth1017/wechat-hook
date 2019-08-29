@@ -7,17 +7,24 @@
 #include "resource.h" // 窗体资源信息
 #include <TlHelp32.h>
 #include <stdio.h>
+#include "Inject.h"
+
+//------------------------------------函数申明区-------------------------------------------------
+INT_PTR CALLBACK Dlgproc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
+BOOL handleWmCommand(HWND hwndDlg, WPARAM wParam);
+VOID setWindowWechat(HWND hwndDlg);
+//------------------------------------函数申明区-------------------------------------------------
+
+
 #define WECHAT_PROCESS_NAME "WeChat.exe"
+#define WECHAT_INJECT_HELP_DLL "wechat-inject-helper.dll"
+
 HANDLE WECHAT_PROCESS;
 LPVOID dllAdd;
 HANDLE hThread;
-CHAR pathStr[0x100] = { "D://Code//Study//wechat-hook//Debug//wechat-inject-helper.dll" };
 
-INT_PTR CALLBACK Dlgproc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
 DWORD ProcessNameFindPID(LPCSTR ProcessName);
-//LPCSTR GetInjectDllPath();
-VOID LoadDll();
-VOID UnLoadDll();
+VOID LoadDll(TCHAR * pathStr);
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR    lpCmdLine, _In_ int       nCmdShow)
 {
@@ -38,14 +45,7 @@ INT_PTR CALLBACK Dlgproc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 		break;
 		// 按钮事件
 	case WM_COMMAND:
-		// 加载
-		if (wParam == LOAD_DLL) {
-			LoadDll();
-		}
-		// 卸载
-		if (wParam == UNLOAD_DLL) {
-			UnLoadDll();
-		}
+		handleWmCommand(hDlg, wParam);
 		break;
 	default:
 		break;
@@ -75,18 +75,9 @@ DWORD ProcessNameFindPID(LPCSTR ProcessName)
 	return 0;
 }
 
-// 获取注入DLL全路径
-//LPCSTR GetInjectDllPath()
-//{
-//	char szPath[MAX_PATH] = { 0 };
-//	GetModuleFileNameA(NULL, szPath, MAX_PATH);
-//	(strrchr(szPath, '\\'))[0] = 0; // 删除文件名，只获得路径字串
-//	return szPath;
-//}
-
 // 2.微信内部申请内存 存放dll路径
 // 微信进程找到微信PID，通过PID打开微信获取到句柄
-VOID LoadDll()
+VOID LoadDll(TCHAR * pathStr)
 {
 	// 1.获取到微信句柄
 	DWORD PID = ProcessNameFindPID(WECHAT_PROCESS_NAME);
@@ -129,20 +120,32 @@ VOID LoadDll()
 	}
 }
 
-VOID UnLoadDll() {
-	DWORD dwHandle;
-	// 等待GetModuleHandle运行完毕
-	WaitForSingleObject(hThread, INFINITE);
-	// 获得GetModuleHandle的返回值
-	GetExitCodeThread(hThread, &dwHandle);
-	// 释放目标进程中申请的空间
-	VirtualFreeEx(WECHAT_PROCESS, dllAdd, sizeof(pathStr), MEM_DECOMMIT);
-	CloseHandle(hThread);
-	// 使目标进程调用FreeLibrary，卸载DLL
-	LPVOID pFunc = FreeLibrary;
-	hThread = CreateRemoteThread(WECHAT_PROCESS, NULL, 0, (LPTHREAD_START_ROUTINE)pFunc, (LPVOID)dwHandle, 0, NULL);
-	// 等待FreeLibrary卸载完毕
-	WaitForSingleObject(hThread, INFINITE);
-	CloseHandle(hThread);
-	CloseHandle(WECHAT_PROCESS);
+
+//界面事件处理函数
+BOOL handleWmCommand(HWND hwndDlg, WPARAM wParam) {
+	TCHAR wechat_path[0x100] = { "D:\\Program Files (x86)\\Tencent\\WeChat\\WeChat.exe" };
+	LPCSTR paths = GetDllPath("wechat-inject-helper.dll");
+	switch (wParam)
+	{
+	case LOAD_DLL:
+		//LoadDll((char *)paths);
+		LoadDll((char *)"D://Code//杂物间//wechat-hook//Debug");
+		//runWechat((char *)paths, wechat_path);
+		return TRUE;
+		break;
+	case UNLOAD_DLL:
+		CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)setWindowWechat, hwndDlg, 0, NULL);
+		return TRUE;
+		break;
+	default:
+		break;
+	}
+}
+
+VOID setWindowWechat(HWND hwndDlg)
+{
+	while (true)
+	{
+		setWindow(hwndDlg);
+	}
 }

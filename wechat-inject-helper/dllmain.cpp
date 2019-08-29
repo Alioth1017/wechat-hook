@@ -14,8 +14,8 @@ BOOL APIENTRY DllMain(HMODULE hModule,
 	switch (ul_reason_for_call)
 	{
 	case DLL_PROCESS_ATTACH:
-		//MessageBox(NULL, L"加载中", L"DLL消息", 0);
-		DialogBox(hModule, MAKEINTRESOURCE(ID_MAIN), NULL, &Dlgproc);
+		MessageBox(NULL, L"加载中", L"DLL消息", 0);
+		//DialogBox(hModule, MAKEINTRESOURCE(ID_MAIN), NULL, &Dlgproc);
 	case DLL_THREAD_ATTACH:
 	case DLL_THREAD_DETACH:
 	case DLL_PROCESS_DETACH:

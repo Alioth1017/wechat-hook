@@ -31,8 +31,7 @@ VOID readWechatData(HWND hDlg) {
 	// 装数据的容器
 	CHAR wxid[0x100] = { 0 };
 	sprintf_s(wxid, "%s", wechatWin + 0x1131BEC);
-	OutputDebugString((LPCWSTR)wxid);
-	//SetDlgItemText(hDlg, SHOW_DATA, wxid);
+	SetDlgItemText(hDlg, SHOW_DATA, (LPCWSTR)wxid);
 
 	//CHAR headPic[0x100] = { 0 };
 	//DWORD pPic = wechatWin + 0x1131F2C;

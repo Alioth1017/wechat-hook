@@ -6,12 +6,12 @@
 #include "Inject.h"
 
 // 获取注入DLL全路径
-LPCSTR GetDllPath(LPCSTR dllName)
+LPSTR GetDllPath(LPCSTR dllName)
 {
-	char szPath[MAX_PATH] = { 0 };
+	char szPath[0x1000] = { 0 };
 	GetModuleFileNameA(NULL, szPath, MAX_PATH);
 	(strrchr(szPath, '\\'))[0] = 0; // 删除文件名，只获得路径字串
-	TCHAR paths[MAX_PATH] = { 0 };
+	TCHAR paths[0x1000] = { 0 };
 	sprintf_s(paths, "%s\\%s", szPath, dllName);
 	return paths;
 }
@@ -19,7 +19,7 @@ LPCSTR GetDllPath(LPCSTR dllName)
 // 通过进程名称查找进程ID
 DWORD ProcessNameToPID(LPCSTR processName)
 {
-	wchar_t buffText[0x100] = { 0 };
+	TCHAR buffText[0x100] = { 0 };
 	// 获取进程快照
 	// #include <TlHelp32.h>
 	HANDLE ProcessAll = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, NULL);
@@ -28,8 +28,8 @@ DWORD ProcessNameToPID(LPCSTR processName)
 	do
 	{
 		if (strcmp(processName, processInfo.szExeFile) == 0) {
-			swprintf_s(buffText, L"进程名称=%s 进程ID=%d \r\n", processInfo.szExeFile, processInfo.th32ProcessID);
-			OutputDebugString((LPCSTR)buffText);
+			sprintf_s(buffText, "进程名称=%s 进程ID=%d \r\n", processInfo.szExeFile, processInfo.th32ProcessID);
+			OutputDebugString(buffText);
 			return processInfo.th32ProcessID;
 		}
 	} while (Process32Next(ProcessAll, &processInfo));
@@ -40,7 +40,7 @@ DWORD ProcessNameToPID(LPCSTR processName)
 //注入dll
 VOID injectDll(char * dllPath)
 {
-	wchar_t buff[0x100] = { 0 };
+	TCHAR buff[0x100] = { 0 };
 	// 1.获取到微信句柄
 	DWORD PID = ProcessNameToPID(INJECT_PROCESS_NAME);
 	if (PID == 0) {
@@ -72,8 +72,8 @@ VOID injectDll(char * dllPath)
 	//LoadLibraryW 在Kernel32.dll里面 所以我们先获取这个dll的基址
 	HMODULE hModule = GetModuleHandle("Kernel32.dll");
 	LPVOID address = GetProcAddress(hModule, "LoadLibraryA");
-	swprintf_s(buff, L"loadLibrary=%p path=%p", address, allocRes);
-	OutputDebugString((LPCSTR)buff);
+	sprintf_s(buff, "loadLibrary=%p path=%p", address, allocRes);
+	OutputDebugString(buff);
 	//通过远程线程执行这个函数 参数传入 我们dll的地址
 	//开始注入dll
 	HANDLE hRemote = CreateRemoteThread(hProcess, NULL, 0, (LPTHREAD_START_ROUTINE)address, allocRes, 0, NULL);
@@ -91,10 +91,10 @@ VOID readMemory()
 	LPCVOID phoneAdd = (LPCVOID)0x10611E80;
 	DWORD reSize = 0xB;
 	char buff[0x100] = { 0 };
-	wchar_t buffTest[0x100] = { 0 };
+	TCHAR buffTest[0x100] = { 0 };
 	ReadProcessMemory(hProcess, phoneAdd, buff, reSize, NULL);
-	swprintf_s(buffTest, L"add=%p %s ", buff, buff);
-	OutputDebugString((LPCSTR)buffTest);
+	sprintf_s(buffTest, "add=%p %s ", buff, buff);
+	OutputDebugString(buffTest);
 }
 
 
@@ -110,11 +110,11 @@ VOID setWindow(HWND thisWindow)
 	LONG height = wechatHandle.bottom - wechatHandle.top;
 	MoveWindow(thisWindow, wechatHandle.left - 230, wechatHandle.top, 240, height, TRUE);
 	SetWindowPos(thisWindow, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-	wchar_t buff[0x100] = {};
-	swprintf_s(buff, L"上：%d 下：%d 左：%d 右：%d\r\n", wechatHandle.top, wechatHandle.bottom, wechatHandle.left, wechatHandle.right);
+	TCHAR buff[0x100] = {};
+	sprintf_s(buff, "上：%d 下：%d 左：%d 右：%d\r\n", wechatHandle.top, wechatHandle.bottom, wechatHandle.left, wechatHandle.right);
 
 
-	OutputDebugString((LPCSTR)buff);
+	OutputDebugString(buff);
 }
 
 //启动微信
@@ -123,31 +123,31 @@ VOID setWindow(HWND thisWindow)
 //然后再ResumeThread 让目标进程运行
 VOID runWechat(TCHAR * dllPath, TCHAR * wechatPath)
 {
-	injectDll(dllPath);
-	////TCHAR szDll[] = dllPath;
-	//STARTUPINFO si = { 0 };
-	//PROCESS_INFORMATION pi = { 0 };
-	//si.cb = sizeof(si);
-	//si.dwFlags = STARTF_USESHOWWINDOW;
-	//si.wShowWindow = SW_SHOW;//SW_SHOW
-	////TCHAR szCommandLine[MAX_PATH] = TEXT("D:\\Program Files (x86)\\Tencent\\WeChat\\WeChat.exe");
+	//injectDll(dllPath);
+	//TCHAR szDll[] = dllPath;
+	STARTUPINFO si = { 0 };
+	PROCESS_INFORMATION pi = { 0 };
+	si.cb = sizeof(si);
+	si.dwFlags = STARTF_USESHOWWINDOW;
+	si.wShowWindow = SW_SHOW;//SW_SHOW
+	//TCHAR szCommandLine[MAX_PATH] = TEXT("D:\\Program Files (x86)\\Tencent\\WeChat\\WeChat.exe");
 
-	//CreateProcess(NULL, wechatPath, NULL, NULL, FALSE, CREATE_SUSPENDED, NULL, NULL, &si, &pi);
-	//LPVOID Param = VirtualAllocEx(pi.hProcess, NULL, MAX_PATH, MEM_COMMIT, PAGE_EXECUTE_READWRITE);
-	//TCHAR add[0x100] = { 0 };
+	CreateProcess(NULL, wechatPath, NULL, NULL, FALSE, CREATE_SUSPENDED, NULL, NULL, &si, &pi);
+	LPVOID Param = VirtualAllocEx(pi.hProcess, NULL, MAX_PATH, MEM_COMMIT, PAGE_EXECUTE_READWRITE);
+	TCHAR add[0x100] = { 0 };
 
-	//WriteProcessMemory(pi.hProcess, Param, dllPath, strlen(dllPath) * 2 + sizeof(char), NULL);
+	WriteProcessMemory(pi.hProcess, Param, dllPath, strlen(dllPath) * 2 + sizeof(char), NULL);
 
-	//TCHAR buff[0x100] = { 0 };
-	//HMODULE hModule = GetModuleHandle("Kernel32.dll");
-	//LPVOID address = GetProcAddress(hModule, "LoadLibraryW");
-	////通过远程线程执行这个函数 参数传入 我们dll的地址
-	////开始注入dll
-	//HANDLE hRemote = CreateRemoteThread(pi.hProcess, NULL, 0, (LPTHREAD_START_ROUTINE)address, Param, 0, NULL);
-	//if (NULL == hRemote) {
-	//	MessageBox(NULL, "远程执行失败", "错误", MB_OK);
-	//	return;
-	//}
+	TCHAR buff[0x100] = { 0 };
+	HMODULE hModule = GetModuleHandle("Kernel32.dll");
+	LPVOID address = GetProcAddress(hModule, "LoadLibraryA");
+	//通过远程线程执行这个函数 参数传入 我们dll的地址
+	//开始注入dll
+	HANDLE hRemote = CreateRemoteThread(pi.hProcess, NULL, 0, (LPTHREAD_START_ROUTINE)address, Param, 0, NULL);
+	if (NULL == hRemote) {
+		MessageBox(NULL, "远程执行失败", "错误", MB_OK);
+		return;
+	}
 
-	//ResumeThread(pi.hThread);
+	ResumeThread(pi.hThread);
 }

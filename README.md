@@ -2,6 +2,6 @@
 
 A wechat pc hook program
 
-## compile-tips
+## Compile tips
 
 To avoid compile errors, please set the active solution platform to x86.

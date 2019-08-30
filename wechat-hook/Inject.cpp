@@ -37,7 +37,7 @@ DWORD ProcessNameToPID(LPCSTR processName)
 	return 0;
 }
 
-//注入dll
+// 注入dll
 VOID injectDll(char * dllPath)
 {
 	TCHAR buff[0x100] = { 0 };
@@ -68,14 +68,14 @@ VOID injectDll(char * dllPath)
 		MessageBox(NULL, "DLL路径写入失败", "错误", MB_OK);
 		return;
 	}
-	//路径写入 成功后我们现在获取LoadLibraryW 基址
-	//LoadLibraryW 在Kernel32.dll里面 所以我们先获取这个dll的基址
+	// 路径写入 成功后我们现在获取LoadLibraryW 基址
+	// LoadLibraryW 在Kernel32.dll里面 所以我们先获取这个dll的基址
 	HMODULE hModule = GetModuleHandle("Kernel32.dll");
 	LPVOID address = GetProcAddress(hModule, "LoadLibraryA");
 	sprintf_s(buff, "loadLibrary=%p path=%p", address, allocRes);
 	OutputDebugString(buff);
-	//通过远程线程执行这个函数 参数传入 我们dll的地址
-	//开始注入dll
+	// 通过远程线程执行这个函数 参数传入 我们dll的地址
+	// 开始注入dll
 	HANDLE hRemote = CreateRemoteThread(hProcess, NULL, 0, (LPTHREAD_START_ROUTINE)address, allocRes, 0, NULL);
 	if (NULL == hRemote) {
 		MessageBox(NULL, "远程执行失败", "错误", MB_OK);
@@ -83,7 +83,7 @@ VOID injectDll(char * dllPath)
 	}
 }
 
-//读取内存
+// 读取内存
 VOID readMemory()
 {
 	DWORD PID = ProcessNameToPID(INJECT_PROCESS_NAME);
@@ -112,7 +112,6 @@ VOID setWindow(HWND thisWindow)
 	SetWindowPos(thisWindow, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 	TCHAR buff[0x100] = {};
 	sprintf_s(buff, "上：%d 下：%d 左：%d 右：%d\r\n", wechatHandle.top, wechatHandle.bottom, wechatHandle.left, wechatHandle.right);
-
 
 	OutputDebugString(buff);
 }
@@ -149,5 +148,9 @@ VOID runWechat(TCHAR * dllPath, TCHAR * wechatPath)
 		return;
 	}
 
-	ResumeThread(pi.hThread);
+	DWORD rThread = ResumeThread(pi.hThread);
+	if (-1 == rThread) {
+		MessageBox(NULL, "微信进程唤醒失败", "错误", MB_OK);
+		return;
+	}
 }

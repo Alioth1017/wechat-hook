@@ -38,20 +38,20 @@ DWORD ProcessNameToPID(LPCSTR processName)
 }
 
 // 注入dll
-VOID injectDll(char * dllPath)
+BOOL injectDll(char * dllPath)
 {
 	TCHAR buff[0x100] = { 0 };
 	// 1.获取到微信句柄
 	DWORD PID = ProcessNameToPID(INJECT_PROCESS_NAME);
 	if (PID == 0) {
-		MessageBox(NULL, "未找到微信进程或微信未启动", "错误", MB_OK);
-		return;
+		//MessageBox(NULL, "未找到微信进程或微信未启动", "错误", MB_OK);
+		return FALSE;
 	}
 	// 2.用找到的PID打开获取到的句柄
 	HANDLE hProcess = OpenProcess(PROCESS_ALL_ACCESS, TRUE, PID);
 	if (NULL == hProcess) {
-		MessageBox(NULL, "进程打开失败，可能权限不足或者关闭了应用", "错误", MB_OK);
-		return;
+		//MessageBox(NULL, "进程打开失败，可能权限不足或者关闭了应用", "错误", MB_OK);
+		return FALSE;
 	}
 	// 3.申请内存
 	DWORD strSize = strlen(dllPath) * 2;
@@ -59,14 +59,14 @@ VOID injectDll(char * dllPath)
 	//首先申请一片内存用于储存dll路径
 	LPVOID allocRes = VirtualAllocEx(hProcess, NULL, strSize, MEM_COMMIT, PAGE_READWRITE);
 	if (NULL == allocRes) {
-		MessageBox(NULL, "内存申请失败", "错误", MB_OK);
-		return;
+		//MessageBox(NULL, "内存申请失败", "错误", MB_OK);
+		return FALSE;
 	}
 
 	// 4.dll路径写入到申请的内存中
 	if (WriteProcessMemory(hProcess, allocRes, dllPath, strSize, NULL) == 0) {
-		MessageBox(NULL, "DLL路径写入失败", "错误", MB_OK);
-		return;
+		//MessageBox(NULL, "DLL路径写入失败", "错误", MB_OK);
+		return FALSE;
 	}
 	// 路径写入 成功后我们现在获取LoadLibraryW 基址
 	// LoadLibraryW 在Kernel32.dll里面 所以我们先获取这个dll的基址
@@ -78,9 +78,10 @@ VOID injectDll(char * dllPath)
 	// 开始注入dll
 	HANDLE hRemote = CreateRemoteThread(hProcess, NULL, 0, (LPTHREAD_START_ROUTINE)address, allocRes, 0, NULL);
 	if (NULL == hRemote) {
-		MessageBox(NULL, "远程执行失败", "错误", MB_OK);
-		return;
+		//MessageBox(NULL, "远程执行失败", "错误", MB_OK);
+		return FALSE;
 	}
+	return TRUE;
 }
 
 // 读取内存
@@ -122,6 +123,10 @@ VOID setWindow(HWND thisWindow)
 //然后再ResumeThread 让目标进程运行
 VOID runWechat(TCHAR * dllPath, TCHAR * wechatPath)
 {
+	// 微信如果已经启动 直接注入 否则 启动并 注入
+	if (injectDll(dllPath)) {
+		return;
+	}
 	//injectDll(dllPath);
 	//TCHAR szDll[] = dllPath;
 	STARTUPINFO si = { 0 };

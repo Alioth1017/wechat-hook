@@ -27,7 +27,6 @@ INT_PTR CALLBACK Dlgproc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 	switch (message)
 	{
 	case WM_INITDIALOG:
-		//MessageBox(NULL, "首次加载", "提示", 0);
 		break;
 	case WM_CLOSE:
 		EndDialog(hDlg, wParam);

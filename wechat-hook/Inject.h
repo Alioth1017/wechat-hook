@@ -5,7 +5,7 @@
 //#define INJECT_DLL_NAME "WechatDllCpp.dll"
 LPSTR GetDllPath(LPCSTR dllName);
 DWORD ProcessNameToPID(LPCSTR processName);
-VOID injectDll(char * dllPath);
+BOOL injectDll(char * dllPath);
 VOID readMemory();
 VOID setWindow(HWND thisWindow);
 VOID runWechat(TCHAR * dllPath, TCHAR * wechatPath);

@@ -4,6 +4,7 @@
 #include "resource.h"
 #include "wechat-inject-helper.h"
 
+VOID ThreadProcess(HMODULE hModule);
 INT_PTR CALLBACK Dlgproc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
 
 BOOL APIENTRY DllMain(HMODULE hModule,
@@ -14,15 +15,21 @@ BOOL APIENTRY DllMain(HMODULE hModule,
 	switch (ul_reason_for_call)
 	{
 	case DLL_PROCESS_ATTACH:
-		//MessageBox(NULL, L"加载中", L"DLL消息", 0);
-		DialogBox(hModule, MAKEINTRESOURCE(ID_MAIN), NULL, &Dlgproc);
+		CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)ThreadProcess, hModule, NULL, 0);
+		break;
 	case DLL_THREAD_ATTACH:
+		break;
 	case DLL_THREAD_DETACH:
+		break;
 	case DLL_PROCESS_DETACH:
-		MessageBox(NULL, L"卸载中", L"DLL消息", 0);
 		break;
 	}
 	return TRUE;
+}
+
+VOID ThreadProcess(HMODULE hModule)
+{
+	DialogBox(hModule, MAKEINTRESOURCE(ID_MAIN), NULL, &Dlgproc);
 }
 
 INT_PTR CALLBACK Dlgproc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)

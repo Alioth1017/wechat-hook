@@ -3,8 +3,7 @@
 // π© wechat-hook.rc  π”√
 //
 #define ID_MAIN                         101
-#define UNLOAD_DLL                      1001
-#define LOAD_DLL                        1002
+#define START_HELPER                    1002
 
 // Next default values for new objects
 // 

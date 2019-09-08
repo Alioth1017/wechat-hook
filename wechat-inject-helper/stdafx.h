@@ -12,5 +12,7 @@
 #include <windows.h>
 
 
-
 // 在此处引用程序需要的其他标头
+#include "tools.h"
+#include "offset.h"
+#include "message.h"

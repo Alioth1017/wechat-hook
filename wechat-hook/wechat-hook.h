@@ -5,5 +5,5 @@
 //------------------------------------函数申明区-------------------------------------------------
 INT_PTR CALLBACK Dlgproc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
 void RunSingle();
-VOID handleWmCommand(HWND hwndDlg, WPARAM wParam);
+void handleWmCommand(HWND hwndDlg, WPARAM wParam);
 //------------------------------------函数申明区-------------------------------------------------

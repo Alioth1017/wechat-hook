@@ -3,6 +3,8 @@
 #include <Windows.h>
 #include "resource.h"
 #include "wechat-inject-helper.h"
+#include "WndMsgLoop.h"
+
 
 VOID ThreadProcess(HMODULE hModule);
 INT_PTR CALLBACK Dlgproc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
@@ -16,6 +18,7 @@ BOOL APIENTRY DllMain(HMODULE hModule,
 	{
 	case DLL_PROCESS_ATTACH:
 		CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)ThreadProcess, hModule, NULL, 0);
+		//CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)InitWindow, hModule, NULL, 0);
 		break;
 	case DLL_THREAD_ATTACH:
 		break;

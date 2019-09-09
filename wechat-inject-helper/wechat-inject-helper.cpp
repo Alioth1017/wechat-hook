@@ -22,7 +22,7 @@ VOID readWechatData(HWND hDlg) {
 		AnsiToUnicode(asVer.data()));
 	SetDlgItemText(hDlg, SHOW_DATA, buff);
 
-	//查找登陆窗口句柄
+	//查找微信小助手窗口句柄
 	HWND hWxHelper = FindWindow(NULL, L"微信小助手");
 	if (hWxHelper == NULL)
 	{
@@ -30,7 +30,7 @@ VOID readWechatData(HWND hDlg) {
 		return;
 	}
 	//const wchar_t* sz = L"这是一条测试消息";
-	const wchar_t* sz = L"This is a message test.";
+	const wchar_t* sz = L"This is a test message from wechat-inject-helper.";
 	COPYDATASTRUCT msg;
 	msg.cbData = wcslen(sz)*2 + 1; // 宽字符需要*2,数组完整需要+1
 	msg.dwData = sizeof(COPYDATASTRUCT);

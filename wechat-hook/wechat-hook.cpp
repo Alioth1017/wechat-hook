@@ -38,8 +38,7 @@ INT_PTR CALLBACK Dlgproc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_COMMAND:
 		handleWmCommand(hDlg, wParam);
 		break;
-	case WM_COPYDATA:
-	{
+	case WM_COPYDATA: {
 		COPYDATASTRUCT *pCopyData = (COPYDATASTRUCT*)lParam;
 		wchar_t buff[0x1000] = { 0 };
 		swprintf_s(buff, L"%s", pCopyData->lpData);
@@ -77,9 +76,28 @@ void handleWmCommand(HWND hwndDlg, WPARAM wParam) {
 	char wechat_path[0x100] = { "D:\\Program Files (x86)\\Tencent\\WeChat\\WeChat.exe" };
 	switch (wParam)
 	{
-	case START_HELPER:
+	case START_HELPER: {
 		RunWechat(wechat_path);
 		break;
+	}
+	case ID_TEST: {
+		//查找注入dll生成的窗口句柄
+		HWND hWxInjectHelper = FindWindow(NULL, "wechat-inject-helper");
+		if (hWxInjectHelper == NULL)
+		{
+			MessageBoxA(NULL, "未查找到wechat-inject-helper窗口", "错误", MB_OK);
+			return;
+		}
+		//const wchar_t* sz = L"这是一条测试消息";
+		const wchar_t* sz = L"This is a test message from wechat-hook.";
+		COPYDATASTRUCT msg;
+		msg.cbData = wcslen(sz) * 2 + 1; // 宽字符需要*2,数组完整需要+1
+		msg.dwData = sizeof(COPYDATASTRUCT);
+		msg.lpData = (LPVOID)sz;
+		//发送消息给控制端
+		SendMessage(hWxInjectHelper, WM_COPYDATA, (WPARAM)hWxInjectHelper, (LPARAM)&msg);
+		break;
+	}
 	default:
 		break;
 	}

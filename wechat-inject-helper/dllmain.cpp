@@ -4,6 +4,7 @@
 #include "resource.h"
 #include "wechat-inject-helper.h"
 #include "WndMsgLoop.h"
+#include <stdio.h>
 
 
 VOID ThreadProcess(HMODULE hModule);
@@ -51,6 +52,13 @@ INT_PTR CALLBACK Dlgproc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 			readWechatData(hDlg);
 		}
 		break;
+	case WM_COPYDATA: {
+		COPYDATASTRUCT *pCopyData = (COPYDATASTRUCT*)lParam;
+		wchar_t buff[0x1000] = { 0 };
+		swprintf_s(buff, L"%s", pCopyData->lpData);
+		MessageBoxW(hDlg, buff, L"Message", 0);
+		break;
+	}
 	default:
 		break;
 	}

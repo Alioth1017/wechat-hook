@@ -38,21 +38,9 @@ INT_PTR CALLBACK Dlgproc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_COMMAND:
 		handleWmCommand(hDlg, wParam);
 		break;
-	case WM_COPYDATA: {
-		COPYDATASTRUCT *pCopyData = (COPYDATASTRUCT*)lParam;
-		if (pCopyData->dwData == WM_Login) {
-			MessageBoxW(hDlg, L"微信登录", L"Message", 0);
-		}
-		else if (pCopyData->dwData == WM_AlreadyLogin) {
-			MessageBoxW(hDlg, L"已经登陆微信", L"Message", 0);
-		}
-		else {
-			wchar_t buff[0x1000] = { 0 };
-			swprintf_s(buff, L"%s", pCopyData->lpData);
-			MessageBoxW(hDlg, buff, L"Message", 0);
-		}
+	case WM_COPYDATA:
+		OnCopyData(hDlg, (COPYDATASTRUCT*)lParam);
 		break;
-	}
 	default:
 		break;
 	}
@@ -108,5 +96,19 @@ void handleWmCommand(HWND hwndDlg, WPARAM wParam) {
 	}
 	default:
 		break;
+	}
+}
+
+void OnCopyData(HWND hDlg, COPYDATASTRUCT* pCopyDataStruct) {
+	if (pCopyDataStruct->dwData == WM_Login) {
+		MessageBoxW(hDlg, L"微信登录", L"Message", 0);
+	}
+	else if (pCopyDataStruct->dwData == WM_AlreadyLogin) {
+		MessageBoxW(hDlg, L"已经登陆微信", L"Message", 0);
+	}
+	else {
+		wchar_t buff[0x1000] = { 0 };
+		swprintf_s(buff, L"%s", pCopyDataStruct->lpData);
+		MessageBoxW(hDlg, buff, L"Message", 0);
 	}
 }

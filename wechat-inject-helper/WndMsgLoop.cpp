@@ -26,9 +26,6 @@ void InitWindow(HMODULE hModule)
 	//	return;
 	//}
 
-	//注册窗口
-	RegisterWindow(hModule);
-
 	//获取WeChatWin的基址
 	DWORD dwWeChatWinAddr = (DWORD)GetModuleHandle(L"WeChatWin.dll");
 
@@ -50,7 +47,6 @@ void InitWindow(HMODULE hModule)
 
 		////HOOK提取表情
 		//HookExtractExpression(WxGetExpressionsAddr);
-
 	}
 	else
 	{
@@ -68,8 +64,11 @@ void InitWindow(HMODULE hModule)
 		login_msg.cbData = 0;
 		//发送消息给控制端
 		SendMessage(hWechatHook, WM_COPYDATA, (WPARAM)hWechatHook, (LPARAM)&login_msg);
+
 	}
 
+	//注册窗口
+	RegisterWindow(hModule);
 }
 
 
@@ -146,6 +145,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT Message, WPARAM wParam, LPARAM lParam)
 		case WM_Logout:
 		{
 			LogoutWeChat();
+
+			//开线程持续检测微信登陆状态
+			Sleep(1000);
+			CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)CheckIsLogin, 0, 0, NULL);
 		}
 		break;
 		////发送文本消息

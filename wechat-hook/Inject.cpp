@@ -205,7 +205,7 @@ BOOL UnloadDll()
 	WaitForSingleObject(hThread, INFINITE);
 	CloseHandle(hThread);
 	CloseHandle(hPro);
-	MessageBox(NULL, "卸载成功", "Tip", 0);
+	//MessageBox(NULL, "卸载成功", "Tip", 0);
 	return TRUE;
 }
 

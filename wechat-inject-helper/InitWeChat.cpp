@@ -73,6 +73,7 @@ void CheckIsLogin()
 
 	while (true)
 	{
+		Sleep(100);
 		DWORD dwIsLogin = dwWeChatWinAddr + LoginSign_Offset + 0x194;
 		if (*(DWORD*)dwIsLogin != 0)
 		{

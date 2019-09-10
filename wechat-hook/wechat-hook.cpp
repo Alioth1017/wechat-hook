@@ -40,9 +40,17 @@ INT_PTR CALLBACK Dlgproc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 		break;
 	case WM_COPYDATA: {
 		COPYDATASTRUCT *pCopyData = (COPYDATASTRUCT*)lParam;
-		wchar_t buff[0x1000] = { 0 };
-		swprintf_s(buff, L"%s", pCopyData->lpData);
-		MessageBoxW(hDlg, buff, L"Message", 0);
+		if (pCopyData->dwData == WM_Login) {
+			MessageBoxW(hDlg, L"微信登录", L"Message", 0);
+		}
+		else if (pCopyData->dwData == WM_AlreadyLogin) {
+			MessageBoxW(hDlg, L"已经登陆微信", L"Message", 0);
+		}
+		else {
+			wchar_t buff[0x1000] = { 0 };
+			swprintf_s(buff, L"%s", pCopyData->lpData);
+			MessageBoxW(hDlg, buff, L"Message", 0);
+		}
 		break;
 	}
 	default:
@@ -89,10 +97,10 @@ void handleWmCommand(HWND hwndDlg, WPARAM wParam) {
 			return;
 		}
 		//const wchar_t* sz = L"这是一条测试消息";
-		const wchar_t* sz = L"This is a test message from wechat-hook.";
+		const wchar_t* sz = L"发送关闭消息";
 		COPYDATASTRUCT msg;
 		msg.cbData = wcslen(sz) * 2 + 1; // 宽字符需要*2,数组完整需要+1
-		msg.dwData = sizeof(COPYDATASTRUCT);
+		msg.dwData = WM_Logout;
 		msg.lpData = (LPVOID)sz;
 		//发送消息给控制端
 		SendMessage(hWxInjectHelper, WM_COPYDATA, (WPARAM)hWxInjectHelper, (LPARAM)&msg);

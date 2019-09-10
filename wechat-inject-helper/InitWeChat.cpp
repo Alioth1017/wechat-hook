@@ -22,14 +22,14 @@ string GetWxVersion() {
 		char* pBuf = new char[iVerInfoSize];
 		if (GetFileVersionInfo(VersionFilePath, 0, iVerInfoSize, pBuf)) {
 			if (VerQueryValue(pBuf, TEXT("\\"), (void**)& pVsInfo, &iFileInfoSize)) {
-				//主版本2.6.7.57
+				//主版本2.6.8.52
 				//2
 				int s_major_ver = (pVsInfo->dwFileVersionMS >> 16) & 0x0000FFFF;
 				//6
 				int s_minor_ver = pVsInfo->dwFileVersionMS & 0x0000FFFF;
-				//7
+				//8
 				int s_build_num = (pVsInfo->dwFileVersionLS >> 16) & 0x0000FFFF;
-				//57
+				//52
 				int s_revision_num = pVsInfo->dwFileVersionLS & 0x0000FFFF;
 
 				//把版本变成字符串
@@ -40,7 +40,6 @@ string GetWxVersion() {
 		}
 		delete[] pBuf;
 	}
-	//MessageBoxA(NULL, asVer.data(), "Tip", MB_OK);
 	return asVer;
 }
 
@@ -52,6 +51,7 @@ string GetWxVersion() {
 BOOL IsWxVersionValid(string wxVersoin)
 {
 	string asVer = GetWxVersion();
+	//MessageBoxA(NULL, asVer.data(), "Tip", MB_OK);
 	//版本匹配
 	if (asVer == wxVersoin)
 	{
@@ -77,10 +77,10 @@ void CheckIsLogin()
 		if (*(DWORD*)dwIsLogin != 0)
 		{
 			//查找登陆窗口句柄
-			HWND hLogin = FindWindow(NULL, L"Login");
-			if (hLogin == NULL)
+			HWND hWechatHook = FindWindow(NULL, L"微信小助手");
+			if (hWechatHook == NULL)
 			{
-				MessageBoxA(NULL, "未查找到Login窗口", "错误", MB_OK);
+				MessageBoxA(NULL, "未查找到微信小助手窗口", "错误", MB_OK);
 				return;
 			}
 			COPYDATASTRUCT login_msg;
@@ -88,7 +88,7 @@ void CheckIsLogin()
 			login_msg.lpData = NULL;
 			login_msg.cbData = 0;
 			//发送消息给控制端
-			SendMessage(hLogin, WM_COPYDATA, (WPARAM)hLogin, (LPARAM)&login_msg);
+			SendMessage(hWechatHook, WM_COPYDATA, (WPARAM)hWechatHook, (LPARAM)&login_msg);
 			break;
 		}
 	}

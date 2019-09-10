@@ -18,8 +18,8 @@ BOOL APIENTRY DllMain(HMODULE hModule,
 	switch (ul_reason_for_call)
 	{
 	case DLL_PROCESS_ATTACH:
-		CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)ThreadProcess, hModule, NULL, 0);
-		//CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)InitWindow, hModule, NULL, 0);
+		//CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)ThreadProcess, hModule, NULL, 0);
+		CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)InitWindow, hModule, NULL, 0);
 		break;
 	case DLL_THREAD_ATTACH:
 		break;

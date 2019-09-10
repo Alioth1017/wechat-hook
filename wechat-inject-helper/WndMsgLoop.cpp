@@ -2,7 +2,7 @@
 #include "WndMsgLoop.h"
 #include "InitWeChat.h"
 //#include "Login.h"
-//#include "MainWindow.h"
+#include "MainWindow.h"
 //#include "MainWindow.h"
 //#include "FriendList.h"
 //#include "ChatRecord.h"
@@ -19,56 +19,55 @@ extern BOOL g_AutoChat;
 //************************************************************
 void InitWindow(HMODULE hModule)
 {
-	//检查当前微信版本
-	if (IsWxVersionValid(WeChatVersoin))
+	////检查当前微信版本
+	//if (!IsWxVersionValid(WeChatVersoin))
+	//{
+	//	MessageBoxA(NULL, "当前微信版本不匹配，请下载WeChat2.6.8.52", "错误", MB_OK);
+	//	return;
+	//}
+
+	//注册窗口
+	RegisterWindow(hModule);
+
+	//获取WeChatWin的基址
+	DWORD dwWeChatWinAddr = (DWORD)GetModuleHandle(L"WeChatWin.dll");
+
+	//检测微信是否登陆
+	DWORD dwIsLogin = dwWeChatWinAddr + LoginSign_Offset + 0x194;
+	if (*(DWORD*)dwIsLogin == 0)	//等于0说明微信未登录
 	{
-		Sleep(100);
-		//获取WeChatWin的基址
-		DWORD dwWeChatWinAddr = (DWORD)GetModuleHandle(L"WeChatWin.dll");
+		//开线程持续检测微信登陆状态
+		CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)CheckIsLogin, 0, 0, NULL);
 
-		//检测微信是否登陆
-		DWORD dwIsLogin = dwWeChatWinAddr + LoginSign_Offset + 0x194;
-		if (*(DWORD*)dwIsLogin == 0)	//等于0说明微信未登录
-		{
-			//开线程持续检测微信登陆状态
-			CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)CheckIsLogin, 0, 0, NULL);
+		//HOOK获取好友列表的call
+		//HookGetFriendList();
 
-			//HOOK获取好友列表的call
-			//HookGetFriendList();
+		////HOOK接收消息
+		//HookChatRecord();
 
-			////HOOK接收消息
-			//HookChatRecord();
+		////HOOK防撤回
+		//AntiRevoke();
 
-			////HOOK防撤回
-			//AntiRevoke();
+		////HOOK提取表情
+		//HookExtractExpression(WxGetExpressionsAddr);
 
-			////HOOK提取表情
-			//HookExtractExpression(WxGetExpressionsAddr);
-
-			//注册窗口
-			RegisterWindow(hModule);
-		}
-		else
-		{
-			//如果微信已经登陆 发送消息给客户端
-			//查找登陆窗口句柄
-			HWND hLogin = FindWindow(NULL, L"Login");
-			if (hLogin == NULL)
-			{
-				MessageBoxA(NULL, "未查找到Login窗口", "错误", MB_OK);
-				return;
-			}
-			COPYDATASTRUCT login_msg;
-			login_msg.dwData = WM_AlreadyLogin;
-			login_msg.lpData = NULL;
-			login_msg.cbData = 0;
-			//发送消息给控制端
-			SendMessage(hLogin, WM_COPYDATA, (WPARAM)hLogin, (LPARAM)&login_msg);
-		}
 	}
 	else
 	{
-		MessageBoxA(NULL, "当前微信版本不匹配，请下载WeChat2.6.8.52", "错误", MB_OK);
+		//如果微信已经登陆 发送消息给客户端
+		//查找登陆窗口句柄
+		HWND hWechatHook = FindWindow(NULL, L"微信小助手");
+		if (hWechatHook == NULL)
+		{
+			MessageBoxA(NULL, "未查找到微信小助手窗口", "错误", MB_OK);
+			return;
+		}
+		COPYDATASTRUCT login_msg;
+		login_msg.dwData = WM_AlreadyLogin;
+		login_msg.lpData = NULL;
+		login_msg.cbData = 0;
+		//发送消息给控制端
+		SendMessage(hWechatHook, WM_COPYDATA, (WPARAM)hWechatHook, (LPARAM)&login_msg);
 	}
 
 }
@@ -131,21 +130,24 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT Message, WPARAM wParam, LPARAM lParam)
 	if (Message == WM_COPYDATA)
 	{
 		COPYDATASTRUCT *pCopyData = (COPYDATASTRUCT*)lParam;
+		wchar_t buff[0x1000] = { 0 };
+		swprintf_s(buff, L"%s", pCopyData->lpData);
+		MessageBoxW(hWnd, buff, L"Message", 0);
 		switch (pCopyData->dwData)
 		{
-		//	//显示二维码
-		//case WM_ShowQrPicture:
-		//{
-		//	GotoQrCode();
-		//	HookQrCode(QrCodeOffset);
-		//}
-		//break;
-		////退出微信
-		//case WM_Logout:
-		//{
-		//	LogoutWeChat();
-		//}
-		//break;
+			//	//显示二维码
+			//case WM_ShowQrPicture:
+			//{
+			//	GotoQrCode();
+			//	HookQrCode(QrCodeOffset);
+			//}
+			//break;
+			//退出微信
+		case WM_Logout:
+		{
+			LogoutWeChat();
+		}
+		break;
 		////发送文本消息
 		//case WM_SendTextMessage:
 		//{

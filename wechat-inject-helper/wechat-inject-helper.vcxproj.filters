@@ -28,6 +28,9 @@
     <Filter Include="通用函数">
       <UniqueIdentifier>{f9b289e8-49ff-44ff-9cba-5a88118d1278}</UniqueIdentifier>
     </Filter>
+    <Filter Include="主窗口">
+      <UniqueIdentifier>{c120e69b-e4c5-40d6-bae5-ae2e68572f24}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -63,6 +66,9 @@
     <ClInclude Include="tools.h">
       <Filter>通用函数</Filter>
     </ClInclude>
+    <ClInclude Include="MainWindow.h">
+      <Filter>主窗口</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -88,6 +94,9 @@
     </ClCompile>
     <ClCompile Include="tools.cpp">
       <Filter>通用函数</Filter>
+    </ClCompile>
+    <ClCompile Include="MainWindow.cpp">
+      <Filter>主窗口</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

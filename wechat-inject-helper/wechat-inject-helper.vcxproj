@@ -148,6 +148,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="InitWeChat.h" />
+    <ClInclude Include="MainWindow.h" />
     <ClInclude Include="message.h" />
     <ClInclude Include="offset.h" />
     <ClInclude Include="resource.h" />
@@ -162,6 +163,7 @@
   <ItemGroup>
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="InitWeChat.cpp" />
+    <ClCompile Include="MainWindow.cpp" />
     <ClCompile Include="tools.cpp" />
     <ClCompile Include="wechat-info-get.cpp" />
     <ClCompile Include="stdafx.cpp">

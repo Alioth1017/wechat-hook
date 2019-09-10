@@ -13,6 +13,24 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="自定义消息">
+      <UniqueIdentifier>{4c69b570-0314-4458-bf54-3bb81b092811}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="初始化微信">
+      <UniqueIdentifier>{1bed1c7d-e20f-438c-bca9-8db62c1a3626}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="偏移">
+      <UniqueIdentifier>{c4523da6-b75c-48e0-ab84-dbf5dd9df549}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="窗口消息循环">
+      <UniqueIdentifier>{1b97d3b6-5a99-4fdf-a214-d55d60c7242e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="通用函数">
+      <UniqueIdentifier>{f9b289e8-49ff-44ff-9cba-5a88118d1278}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="主窗口">
+      <UniqueIdentifier>{c120e69b-e4c5-40d6-bae5-ae2e68572f24}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -33,6 +51,24 @@
     <ClInclude Include="wechat-info-get.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="message.h">
+      <Filter>自定义消息</Filter>
+    </ClInclude>
+    <ClInclude Include="InitWeChat.h">
+      <Filter>初始化微信</Filter>
+    </ClInclude>
+    <ClInclude Include="offset.h">
+      <Filter>偏移</Filter>
+    </ClInclude>
+    <ClInclude Include="WndMsgLoop.h">
+      <Filter>窗口消息循环</Filter>
+    </ClInclude>
+    <ClInclude Include="tools.h">
+      <Filter>通用函数</Filter>
+    </ClInclude>
+    <ClInclude Include="MainWindow.h">
+      <Filter>主窗口</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -49,6 +85,18 @@
     </ClCompile>
     <ClCompile Include="wechat-info-get.cpp">
       <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="InitWeChat.cpp">
+      <Filter>初始化微信</Filter>
+    </ClCompile>
+    <ClCompile Include="WndMsgLoop.cpp">
+      <Filter>窗口消息循环</Filter>
+    </ClCompile>
+    <ClCompile Include="tools.cpp">
+      <Filter>通用函数</Filter>
+    </ClCompile>
+    <ClCompile Include="MainWindow.cpp">
+      <Filter>主窗口</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

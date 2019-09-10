@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="注入器">
+      <UniqueIdentifier>{0ef63ef8-46bd-4297-b3f6-a2acbe5f0792}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="自定义消息">
+      <UniqueIdentifier>{40e11f53-a112-4979-ab95-2e835743d1a0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -28,7 +34,10 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Inject.h">
-      <Filter>头文件</Filter>
+      <Filter>注入器</Filter>
+    </ClInclude>
+    <ClInclude Include="message.h">
+      <Filter>自定义消息</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -39,7 +48,7 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Inject.cpp">
-      <Filter>源文件</Filter>
+      <Filter>注入器</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

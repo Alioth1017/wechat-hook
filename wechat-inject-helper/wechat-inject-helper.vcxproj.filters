@@ -31,6 +31,21 @@
     <Filter Include="主窗口">
       <UniqueIdentifier>{c120e69b-e4c5-40d6-bae5-ae2e68572f24}</UniqueIdentifier>
     </Filter>
+    <Filter Include="聊天记录">
+      <UniqueIdentifier>{da6b6f22-8ea5-4361-9b1b-56ffdf4ac55b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="好友列表">
+      <UniqueIdentifier>{676be2df-03d7-4af0-a953-af90e8a29434}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="好友列表\好友列表">
+      <UniqueIdentifier>{fb46ca54-a249-4452-89a9-34324d23f13e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="好友列表\群相关操作">
+      <UniqueIdentifier>{10822d94-1fc2-4c46-8cbb-8c61f74e893c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="自动功能">
+      <UniqueIdentifier>{e925d8f2-c871-4d25-99cc-1bc5f906e2e7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -69,6 +84,18 @@
     <ClInclude Include="MainWindow.h">
       <Filter>主窗口</Filter>
     </ClInclude>
+    <ClInclude Include="ChatRecord.h">
+      <Filter>聊天记录</Filter>
+    </ClInclude>
+    <ClInclude Include="FriendList.h">
+      <Filter>好友列表\好友列表</Filter>
+    </ClInclude>
+    <ClInclude Include="ChatRoomOperate.h">
+      <Filter>好友列表\群相关操作</Filter>
+    </ClInclude>
+    <ClInclude Include="CAutoFunction.h">
+      <Filter>自动功能</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -97,6 +124,18 @@
     </ClCompile>
     <ClCompile Include="MainWindow.cpp">
       <Filter>主窗口</Filter>
+    </ClCompile>
+    <ClCompile Include="ChatRecord.cpp">
+      <Filter>聊天记录</Filter>
+    </ClCompile>
+    <ClCompile Include="FriendList.cpp">
+      <Filter>好友列表\好友列表</Filter>
+    </ClCompile>
+    <ClCompile Include="ChatRoomOperate.cpp">
+      <Filter>好友列表\群相关操作</Filter>
+    </ClCompile>
+    <ClCompile Include="CAutoFunction.cpp">
+      <Filter>自动功能</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

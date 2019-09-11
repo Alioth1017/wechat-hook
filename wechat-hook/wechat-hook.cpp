@@ -3,10 +3,12 @@
 
 #include "stdafx.h"
 #include "wechat-hook.h"
-#include <Windows.h> // 系统窗体库
 #include "resource.h" // 窗体资源信息
 #include <stdio.h>
 #include "Inject.h"
+
+HANDLE wxPid = NULL;		//微信的PID
+CListCtrl m_ChatRecord;
 
 //***********************************************************
 // 函数名称: wWinMain
@@ -27,11 +29,18 @@ INT_PTR CALLBACK Dlgproc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 	switch (message)
 	{
 	case WM_INITDIALOG:
-		//防多开
+		// 防多开
 		RunSingle();
+		// 注入
+		if (InjectDll(wxPid) == FALSE)
+		{
+			ExitProcess(-1);
+		}
 		break;
 	case WM_CLOSE:
+		// 卸载dll
 		UnloadDll();
+		// 关闭弹框
 		EndDialog(hDlg, wParam);
 		break;
 		// 按钮事件
@@ -69,11 +78,9 @@ void RunSingle()
 // 函数说明: 界面事件处理函数
 //***********************************************************
 void handleWmCommand(HWND hwndDlg, WPARAM wParam) {
-	char wechat_path[0x100] = { "D:\\Program Files (x86)\\Tencent\\WeChat\\WeChat.exe" };
 	switch (wParam)
 	{
 	case START_HELPER: {
-		RunWechat(wechat_path);
 		break;
 	}
 	case ID_TEST: {

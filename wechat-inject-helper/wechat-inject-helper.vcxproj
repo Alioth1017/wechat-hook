@@ -147,6 +147,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CAutoFunction.h" />
+    <ClInclude Include="ChatRecord.h" />
+    <ClInclude Include="ChatRoomOperate.h" />
+    <ClInclude Include="FriendList.h" />
     <ClInclude Include="InitWeChat.h" />
     <ClInclude Include="MainWindow.h" />
     <ClInclude Include="message.h" />
@@ -161,7 +165,11 @@
     <ClInclude Include="WndMsgLoop.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CAutoFunction.cpp" />
+    <ClCompile Include="ChatRecord.cpp" />
+    <ClCompile Include="ChatRoomOperate.cpp" />
     <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="FriendList.cpp" />
     <ClCompile Include="InitWeChat.cpp" />
     <ClCompile Include="MainWindow.cpp" />
     <ClCompile Include="tools.cpp" />

@@ -3,9 +3,8 @@
 #include "InitWeChat.h"
 //#include "Login.h"
 #include "MainWindow.h"
-//#include "MainWindow.h"
 //#include "FriendList.h"
-//#include "ChatRecord.h"
+#include "ChatRecord.h"
 //#include "Function.h"
 //#include "ChatRoomOperate.h"
 //#include "CAutoFunction.h"
@@ -39,8 +38,8 @@ void InitWindow(HMODULE hModule)
 		//HOOK获取好友列表的call
 		//HookGetFriendList();
 
-		////HOOK接收消息
-		//HookChatRecord();
+		//HOOK接收消息
+		HookChatRecord();
 
 		////HOOK防撤回
 		//AntiRevoke();
@@ -255,18 +254,18 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT Message, WPARAM wParam, LPARAM lParam)
 		//	SetRoomName(setroomname->roomwxid, setroomname->roomname);
 		//}
 		//break;
-		////自动聊天
-		//case WM_AutoChat:
-		//{
-		//	g_AutoChat = TRUE;
-		//}
-		//break;
-		////取消自动聊天
-		//case WM_CancleAutoChat:
-		//{
-		//	g_AutoChat = FALSE;
-		//}
-		//break;
+		//自动聊天
+		case WM_AutoChat:
+		{
+			g_AutoChat = TRUE;
+		}
+		break;
+		//取消自动聊天
+		case WM_CancleAutoChat:
+		{
+			g_AutoChat = FALSE;
+		}
+		break;
 		////发送艾特消息
 		//case WM_SendAtMsg:
 		//{

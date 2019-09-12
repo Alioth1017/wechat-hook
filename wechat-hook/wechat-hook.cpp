@@ -17,6 +17,14 @@ CListCtrl m_ChatRecord;
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR    lpCmdLine, _In_ int       nCmdShow)
 {
 	DialogBox(hInstance, MAKEINTRESOURCE(ID_MAIN), NULL, &Dlgproc);
+	m_ChatRecord.SetDlgCtrlID(ID_MESSAGES);
+	m_ChatRecord.InsertColumn(0, "消息类型", 0, 100);
+	m_ChatRecord.InsertColumn(1, "消息来源", 0, 100);
+	m_ChatRecord.InsertColumn(2, "微信ID/群ID", 0, 150);
+	m_ChatRecord.InsertColumn(3, "群发送者", 0, 150);
+	m_ChatRecord.InsertColumn(4, "消息内容", 0, 310);
+	m_ChatRecord.SetExtendedStyle(LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES);
+	
 	return 0;
 }
 

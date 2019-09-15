@@ -132,10 +132,10 @@ DWORD ProcessNameToPID(const char* ProcessName)
 }
 
 //************************************************************
-// 函数名称: CheckIsInject
+// 函数名称: CheckIsNotInject
 // 函数说明: 检测是否已经注入dll
 //************************************************************
-BOOL CheckIsInject(DWORD dwProcessid)
+BOOL CheckIsNotInject(DWORD dwProcessid)
 {
 	HANDLE hModuleSnap = INVALID_HANDLE_VALUE;
 	//初始化模块信息结构体
@@ -220,7 +220,7 @@ BOOL InjectDll(HANDLE& wxPid)
 		wxPid = pi.hProcess;
 	}
 	//检测dll是否已经注入
-	if (!CheckIsInject(dwPid)) {
+	if (!CheckIsNotInject(dwPid)) {
 		//MessageBox(NULL, "重复注入", "错误", MB_OK);
 		return FALSE;
 	}
@@ -275,7 +275,7 @@ void UnloadDll()
 		return;
 	}
 	//检测dll是否已经注入
-	if (!CheckIsInject(dwPid)) {
+	if (CheckIsNotInject(dwPid)) {
 		return;
 	}
 	//遍历模块

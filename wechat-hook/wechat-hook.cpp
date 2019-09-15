@@ -10,6 +10,7 @@
 HANDLE wxPid = NULL;		//微信的PID
 BOOL bAutoChat = FALSE;     //自动聊天
 CListCtrl m_ChatRecord;
+DWORD g_index = 0;
 
 //好友信息
 struct UserInfo
@@ -38,7 +39,8 @@ struct Message
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR    lpCmdLine, _In_ int       nCmdShow)
 {
 	DialogBox(hInstance, MAKEINTRESOURCE(ID_MAIN), NULL, &Dlgproc);
-	m_ChatRecord.SetDlgCtrlID(ID_MESSAGES);
+
+	DDX_Control(NULL, IDC_LIST2, m_ChatRecord);
 	m_ChatRecord.InsertColumn(0, "消息类型", 0, 100);
 	m_ChatRecord.InsertColumn(1, "消息来源", 0, 100);
 	m_ChatRecord.InsertColumn(2, "微信ID/群ID", 0, 150);
@@ -190,6 +192,13 @@ void OnCopyData(HWND hDlg, COPYDATASTRUCT* pCopyDataStruct) {
 		OutputDebugString("\n");
 		OutputDebugStringW(msg->type);
 		OutputDebugString("\n");
+
+		//显示到控件
+		m_ChatRecord.InsertItem(g_index, (LPCSTR)msg->type);
+		m_ChatRecord.SetItemText(g_index, 1, (LPCSTR)msg->source);
+		m_ChatRecord.SetItemText(g_index, 2, (LPCSTR)msg->wxid);
+		m_ChatRecord.SetItemText(g_index, 3, (LPCSTR)msg->msgSender);
+		m_ChatRecord.SetItemText(g_index, 4, (LPCSTR)msg->content);
 	}
 	else {
 		wchar_t buff[0x1000] = { 0 };

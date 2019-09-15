@@ -2,7 +2,7 @@
 #include "stdafx.h"
 
 DWORD ProcessNameToPID(const char* ProcessName);
-BOOL CheckIsInject(DWORD dwProcessid);
+BOOL CheckIsNotInject(DWORD dwProcessid);
 BOOL InjectDll(HANDLE& wxPid);
 void UnloadDll();
 void ReadMemory();

@@ -383,7 +383,8 @@ void SendWxMessage()
 	SendMessage(hWnd, WM_COPYDATA, (WPARAM)hWnd, (LPARAM)&chatmsg);
 
 	//这里处理自动聊天
-	if (isFriendMsg == TRUE && g_AutoChat == TRUE)
+	wstring msgContent = msg->content;
+	if ((isFriendMsg == TRUE || wcscmp(msg->wxid, L"18697378227@chatroom") == 0) && g_AutoChat == TRUE)
 	{
 		//判断消息类型
 		if (msgType != 0x01)

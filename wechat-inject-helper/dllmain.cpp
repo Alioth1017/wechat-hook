@@ -46,18 +46,21 @@ INT_PTR CALLBACK Dlgproc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 		break;
 		// 按钮事件
 	case WM_COMMAND:
+	{
 		// 读内存
 		if (wParam == READ_DATA) {
 			readWechatData(hDlg);
 		}
-		break;
-	case WM_COPYDATA: {
+	}
+	break;
+	case WM_COPYDATA:
+	{
 		COPYDATASTRUCT *pCopyData = (COPYDATASTRUCT*)lParam;
 		wchar_t buff[0x1000] = { 0 };
-		swprintf_s(buff, L"%s", pCopyData->lpData);
+		swprintf_s(buff, L"%s", (wchar_t*)pCopyData->lpData);
 		MessageBoxW(hDlg, buff, L"Message", 0);
-		break;
 	}
+	break;
 	default:
 		break;
 	}

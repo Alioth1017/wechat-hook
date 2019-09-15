@@ -22,11 +22,11 @@ VOID readWechatData(HWND hDlg) {
 		AnsiToUnicode(asVer.data()));
 	SetDlgItemText(hDlg, SHOW_DATA, buff);
 
-	//查找微信小助手窗口句柄
-	HWND hWxHelper = FindWindow(NULL, L"微信小助手");
+	//查找微信助手窗口句柄
+	HWND hWxHelper = FindWindow(NULL, L"微信助手");
 	if (hWxHelper == NULL)
 	{
-		MessageBoxA(NULL, "未查找到微信小助手窗口", "错误", MB_OK);
+		MessageBoxA(NULL, "未查找到微信助手窗口", "错误", MB_OK);
 		return;
 	}
 	//const wchar_t* sz = L"这是一条测试消息";

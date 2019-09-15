@@ -8,29 +8,6 @@
 #define INJECT_PROCESS_NAME "WeChat.exe"
 #define INJECT_DLL_NAME "wechat-inject-helper.dll"
 
-//***********************************************************
-// 函数名称: GetDllPath
-// 函数说明: 获取注入DLL全路径
-//***********************************************************
-char* GetDllPath(const char* dllName)
-{
-	char szPath[MAX_PATH] = { 0 };
-	char buffer[MAX_PATH] = { 0 };
-	GetModuleFileName(NULL, buffer, MAX_PATH);
-	(strrchr(buffer, '\\'))[0] = 0; // 删除文件名，只获得路径字串
-	sprintf_s(szPath, "%s\\%s", buffer, dllName);
-	return szPath;
-
-	//获取当前工作目录下的dll
-	//char szPath[MAX_PATH] = { 0 };
-	//char* buffer = NULL;
-	//if ((buffer = _getcwd(NULL, 0)) != NULL)
-	//{
-	//	sprintf_s(szPath, "%s\\%s", buffer, dllName);
-	//}
-	//return szPath;
-}
-
 #pragma comment(lib,"advapi32")
 CString GetAppRegeditPath(CString strAppName)
 {
@@ -198,7 +175,12 @@ BOOL CheckIsInject(DWORD dwProcessid)
 BOOL InjectDll(HANDLE& wxPid)
 {
 	// 待注入的dll路径
-	char* dllPath = GetDllPath(INJECT_DLL_NAME);
+	char dllPath[MAX_PATH] = { 0 };
+	char buffer[MAX_PATH] = { 0 };
+	GetModuleFileName(NULL, buffer, MAX_PATH);
+	(strrchr(buffer, '\\'))[0] = 0; // 删除文件名，只获得路径字串
+	sprintf_s(dllPath, "%s\\%s", buffer, INJECT_DLL_NAME);
+
 	// 1.获取到微信句柄
 	DWORD dwPid = ProcessNameToPID(INJECT_PROCESS_NAME);
 	if (dwPid == 0) {
@@ -292,7 +274,10 @@ void UnloadDll()
 		//MessageBox(NULL, "没有找到微信进程或者微信没有启动", "错误", 0);
 		return;
 	}
-
+	//检测dll是否已经注入
+	if (!CheckIsInject(dwPid)) {
+		return;
+	}
 	//遍历模块
 	HANDLE hSnap = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, dwPid);
 	MODULEENTRY32 ME32 = { 0 };
@@ -372,7 +357,11 @@ void RunWechat(char* wechatPath)
 	LPVOID Param = VirtualAllocEx(pi.hProcess, NULL, MAX_PATH, MEM_COMMIT, PAGE_EXECUTE_READWRITE);
 	char add[0x100] = { 0 };
 
-	char* dllPath = GetDllPath(INJECT_DLL_NAME);
+	char dllPath[MAX_PATH] = { 0 };
+	char buffer[MAX_PATH] = { 0 };
+	GetModuleFileName(NULL, buffer, MAX_PATH);
+	(strrchr(buffer, '\\'))[0] = 0; // 删除文件名，只获得路径字串
+	sprintf_s(dllPath, "%s\\%s", buffer, INJECT_DLL_NAME);
 	WriteProcessMemory(pi.hProcess, Param, dllPath, strlen(dllPath) * 2 + sizeof(char), NULL);
 
 	char buff[0x100] = { 0 };

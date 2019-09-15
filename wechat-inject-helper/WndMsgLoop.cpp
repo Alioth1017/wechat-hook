@@ -3,7 +3,7 @@
 #include "InitWeChat.h"
 //#include "Login.h"
 #include "MainWindow.h"
-//#include "FriendList.h"
+#include "FriendList.h"
 #include "ChatRecord.h"
 //#include "Function.h"
 //#include "ChatRoomOperate.h"
@@ -51,10 +51,10 @@ void InitWindow(HMODULE hModule)
 	{
 		//如果微信已经登陆 发送消息给客户端
 		//查找登陆窗口句柄
-		HWND hWechatHook = FindWindow(NULL, L"微信小助手");
+		HWND hWechatHook = FindWindow(NULL, L"微信助手");
 		if (hWechatHook == NULL)
 		{
-			MessageBoxA(NULL, "未查找到微信小助手窗口", "错误", MB_OK);
+			MessageBoxA(NULL, "未查找到微信助手窗口", "错误", MB_OK);
 			return;
 		}
 		COPYDATASTRUCT login_msg;
@@ -128,9 +128,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT Message, WPARAM wParam, LPARAM lParam)
 	if (Message == WM_COPYDATA)
 	{
 		COPYDATASTRUCT *pCopyData = (COPYDATASTRUCT*)lParam;
-		wchar_t buff[0x1000] = { 0 };
-		swprintf_s(buff, L"%s", pCopyData->lpData);
-		MessageBoxW(hWnd, buff, L"Message", 0);
+		/*wchar_t buff[0x1000] = { 0 };
+		swprintf_s(buff, L"%s", (wchar_t*)pCopyData->lpData);
+		MessageBoxW(hWnd, buff, L"Message", 0);*/
 		switch (pCopyData->dwData)
 		{
 			//	//显示二维码
@@ -150,34 +150,34 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT Message, WPARAM wParam, LPARAM lParam)
 			CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)CheckIsLogin, 0, 0, NULL);
 		}
 		break;
-		////发送文本消息
-		//case WM_SendTextMessage:
-		//{
-		//	MessageStruct *textmessage = (MessageStruct*)pCopyData->lpData;
-		//	SendTextMessage(textmessage->wxid, textmessage->content);
+		//发送文本消息
+		case WM_SendTextMessage:
+		{
+			MessageStruct *textmessage = (MessageStruct*)pCopyData->lpData;
+			SendTextMessage(textmessage->wxid, textmessage->content);
 
-		//}
-		//break;
-		////发送文件消息
-		//case WM_SendFileMessage:
-		//{
-		//	MessageStruct *textmessage = (MessageStruct*)pCopyData->lpData;
-		//	SendFileMessage(textmessage->wxid, textmessage->content);
-		//}
-		//break;
+		}
+		break;
+		//发送文件消息
+		case WM_SendFileMessage:
+		{
+			MessageStruct *textmessage = (MessageStruct*)pCopyData->lpData;
+			SendFileMessage(textmessage->wxid, textmessage->content);
+		}
+		break;
 		////获取个人信息
 		//case WM_GetInformation:
 		//{
 		//	GetInformation();
 		//}
 		//break;
-		////发送图片消息
-		//case WM_SendImageMessage:
-		//{
-		//	MessageStruct *textmessage = (MessageStruct*)pCopyData->lpData;
-		//	SendImageMessage(textmessage->wxid, textmessage->content);
-		//}
-		//break;
+		//发送图片消息
+		case WM_SendImageMessage:
+		{
+			MessageStruct *textmessage = (MessageStruct*)pCopyData->lpData;
+			SendImageMessage(textmessage->wxid, textmessage->content);
+		}
+		break;
 		////发送群公告
 		//case WM_SetRoomAnnouncement:
 		//{
@@ -185,12 +185,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT Message, WPARAM wParam, LPARAM lParam)
 		//	SetWxRoomAnnouncement(textmessage->wxid, textmessage->content);
 		//}
 		//break;
-		////删除好友
-		//case WM_DeleteUser:
-		//{
-		//	DeleteUser((wchar_t*)pCopyData->lpData);
-		//}
-		//break;
+		//删除好友
+		case WM_DeleteUser:
+		{
+			DeleteUser((wchar_t*)pCopyData->lpData);
+		}
+		break;
 		////退出群聊
 		//case WM_QuitChatRoom:
 		//{
@@ -210,20 +210,20 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT Message, WPARAM wParam, LPARAM lParam)
 		//	AddGroupMember(addgroupmember->chatroomid, addgroupmember->wxid);
 		//}
 		//break;
-		////发送名片
-		//case WM_SendXmlCard:
-		//{
-		//	struct XmlCardMessage
-		//	{
-		//		wchar_t RecverWxid[50];		//接收者的微信ID
-		//		wchar_t SendWxid[50];		//需要发送的微信ID
-		//		wchar_t NickName[50];		//昵称
-		//	};
+		//发送名片
+		case WM_SendXmlCard:
+		{
+			struct XmlCardMessage
+			{
+				wchar_t RecverWxid[50];		//接收者的微信ID
+				wchar_t SendWxid[50];		//需要发送的微信ID
+				wchar_t NickName[50];		//昵称
+			};
 
-		//	XmlCardMessage* pCardMessage = (XmlCardMessage*)pCopyData->lpData;
-		//	SendXmlCard(pCardMessage->RecverWxid, pCardMessage->SendWxid, pCardMessage->NickName);
-		//}
-		//break;
+			XmlCardMessage* pCardMessage = (XmlCardMessage*)pCopyData->lpData;
+			SendXmlCard(pCardMessage->RecverWxid, pCardMessage->SendWxid, pCardMessage->NickName);
+		}
+		break;
 		////显示群成员
 		//case WM_ShowChatRoomMembers:
 		//{

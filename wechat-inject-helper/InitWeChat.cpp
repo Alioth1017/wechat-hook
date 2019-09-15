@@ -78,10 +78,10 @@ void CheckIsLogin()
 		if (*(DWORD*)dwIsLogin != 0)
 		{
 			//查找登陆窗口句柄
-			HWND hWechatHook = FindWindow(NULL, L"微信小助手");
+			HWND hWechatHook = FindWindow(NULL, L"微信助手");
 			if (hWechatHook == NULL)
 			{
-				MessageBoxA(NULL, "未查找到微信小助手窗口", "错误", MB_OK);
+				MessageBoxA(NULL, "未查找到微信助手窗口", "错误", MB_OK);
 				return;
 			}
 			COPYDATASTRUCT login_msg;

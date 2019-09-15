@@ -8,7 +8,28 @@
 #include "Inject.h"
 
 HANDLE wxPid = NULL;		//微信的PID
+BOOL bAutoChat = FALSE;     //自动聊天
 CListCtrl m_ChatRecord;
+
+//好友信息
+struct UserInfo
+{
+	wchar_t UserId[80];
+	wchar_t UserNumber[80];
+	wchar_t UserRemark[80];
+	wchar_t UserNickName[80];
+};
+
+
+//消息结构体
+struct Message
+{
+	wchar_t type[10];		//消息类型
+	wchar_t source[20];		//消息来源
+	wchar_t wxid[40];		//微信ID/群ID
+	wchar_t msgSender[40];	//消息发送者
+	wchar_t content[200];	//消息内容
+};
 
 //***********************************************************
 // 函数名称: wWinMain
@@ -24,7 +45,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
 	m_ChatRecord.InsertColumn(3, "群发送者", 0, 150);
 	m_ChatRecord.InsertColumn(4, "消息内容", 0, 310);
 	m_ChatRecord.SetExtendedStyle(LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES);
-	
+
 	return 0;
 }
 
@@ -89,6 +110,40 @@ void handleWmCommand(HWND hwndDlg, WPARAM wParam) {
 	switch (wParam)
 	{
 	case START_HELPER: {
+		if (bAutoChat == FALSE)
+		{
+			HWND hWxInjectHelper = FindWindow(NULL, "wechat-inject-helper");
+			if (hWxInjectHelper == NULL)
+			{
+				MessageBoxA(NULL, "未查找到wechat-inject-helper窗口", "错误", MB_OK);
+				return;
+			}
+			COPYDATASTRUCT autochat;
+			autochat.dwData = WM_AutoChat;
+			autochat.cbData = 0;
+			autochat.lpData = NULL;
+			//发送消息
+			SendMessage(hWxInjectHelper, WM_COPYDATA, (WPARAM)hWxInjectHelper, (LPARAM)&autochat);
+			bAutoChat = TRUE;
+			MessageBoxW(hwndDlg, L"自动聊天已开启", L"Message", 0);
+		}
+		else
+		{
+			HWND hWxInjectHelper = FindWindow(NULL, "wechat-inject-helper");
+			if (hWxInjectHelper == NULL)
+			{
+				MessageBoxA(NULL, "未查找到wechat-inject-helper窗口", "错误", MB_OK);
+				return;
+			}
+			COPYDATASTRUCT autochat;
+			autochat.dwData = WM_CancleAutoChat;
+			autochat.cbData = 0;
+			autochat.lpData = NULL;
+			//发送消息
+			SendMessage(hWxInjectHelper, WM_COPYDATA, (WPARAM)hWxInjectHelper, (LPARAM)&autochat);
+			bAutoChat = FALSE;
+			MessageBoxW(hwndDlg, L"自动聊天已关闭", L"Message", 0);
+		}
 		break;
 	}
 	case ID_TEST: {
@@ -121,9 +176,24 @@ void OnCopyData(HWND hDlg, COPYDATASTRUCT* pCopyDataStruct) {
 	else if (pCopyDataStruct->dwData == WM_AlreadyLogin) {
 		MessageBoxW(hDlg, L"已经登陆微信", L"Message", 0);
 	}
+	else if (pCopyDataStruct->dwData == WM_ShowChatRecord) {
+		Message *msg = new Message;
+		msg = (Message*)pCopyDataStruct->lpData;
+		OutputDebugStringW(L"\n收到消息\n");
+		OutputDebugStringW(msg->wxid);
+		OutputDebugString("\n");
+		OutputDebugStringW(msg->content);
+		OutputDebugString("\n");
+		OutputDebugStringW(msg->msgSender);
+		OutputDebugString("\n");
+		OutputDebugStringW(msg->source);
+		OutputDebugString("\n");
+		OutputDebugStringW(msg->type);
+		OutputDebugString("\n");
+	}
 	else {
 		wchar_t buff[0x1000] = { 0 };
-		swprintf_s(buff, L"%s", pCopyDataStruct->lpData);
+		swprintf_s(buff, L"%s", (wchar_t*)pCopyDataStruct->lpData);
 		MessageBoxW(hDlg, buff, L"Message", 0);
 	}
 }

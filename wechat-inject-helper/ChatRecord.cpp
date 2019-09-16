@@ -248,7 +248,7 @@ void SendWxMessage()
 		//如果是小冰机器人发来的消息 并且消息已经发送给小冰机器人
 		if ((StrCmpW(msg->wxid, L"gh_0f34f7516685") == 0) && isSendTuLing == TRUE)
 		{
-			wchar_t tempcontent[0x200] = { 0 };
+			wchar_t tempcontent[0x1000] = { 0 };
 			//首先判断机器人回复的消息类型 如果不是文字 直接回复
 			if (msgType != 0x01)
 			{
@@ -276,6 +276,12 @@ void SendWxMessage()
 				SendTextMessage(tempwxid, tempcontent);
 				isSendTuLing = FALSE;
 			}
+		}
+		//公众号发来的文字消息可以接收
+		else if(msgType == 0x01)
+		{
+			LPVOID pContent = *((LPVOID *)(**msgAddress + 0x68));
+			swprintf_s(msg->content, L"%s", (wchar_t*)pContent);
 		}
 		else
 		{

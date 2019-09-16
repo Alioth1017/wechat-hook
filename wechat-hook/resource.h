@@ -3,11 +3,10 @@
 // π© wechat-hook.rc  π”√
 //
 #define ID_MAIN                         101
-#define START_HELPER                    1002
-#define ID_TEST                         1003
-#define IDC_LIST1                       1004
+#define ID_AUTOCHAT                     1002
+#define ID_LOGINOUT                     1003
 #define ID_MESSAGES                     1004
-#define IDC_LIST2                       1005
+#define ID_LOG                          1005
 
 // Next default values for new objects
 // 

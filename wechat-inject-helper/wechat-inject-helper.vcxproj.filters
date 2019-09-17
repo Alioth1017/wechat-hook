@@ -46,6 +46,9 @@
     <Filter Include="自动功能">
       <UniqueIdentifier>{e925d8f2-c871-4d25-99cc-1bc5f906e2e7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="测试用">
+      <UniqueIdentifier>{68f9d5ae-80d2-4af3-8dad-20c39b3d24ad}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -55,15 +58,6 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="wechat-inject-helper.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="utils.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="wechat-info-get.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="message.h">
@@ -96,21 +90,24 @@
     <ClInclude Include="CAutoFunction.h">
       <Filter>自动功能</Filter>
     </ClInclude>
+    <ClInclude Include="wechat-inject-helper.h">
+      <Filter>测试用</Filter>
+    </ClInclude>
+    <ClInclude Include="wechat-info-get.h">
+      <Filter>测试用</Filter>
+    </ClInclude>
+    <ClInclude Include="test.h">
+      <Filter>测试用</Filter>
+    </ClInclude>
+    <ClInclude Include="utils.h">
+      <Filter>测试用</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="wechat-inject-helper.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="dllmain.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="utils.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="wechat-info-get.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="InitWeChat.cpp">
@@ -136,6 +133,18 @@
     </ClCompile>
     <ClCompile Include="CAutoFunction.cpp">
       <Filter>自动功能</Filter>
+    </ClCompile>
+    <ClCompile Include="wechat-info-get.cpp">
+      <Filter>测试用</Filter>
+    </ClCompile>
+    <ClCompile Include="wechat-inject-helper.cpp">
+      <Filter>测试用</Filter>
+    </ClCompile>
+    <ClCompile Include="test.cpp">
+      <Filter>测试用</Filter>
+    </ClCompile>
+    <ClCompile Include="utils.cpp">
+      <Filter>测试用</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

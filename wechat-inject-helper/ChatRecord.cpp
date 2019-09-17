@@ -374,19 +374,12 @@ void SendWxMessage()
 
 	}
 
-
 	//发送到控制端
-	HWND hWnd = FindWindow(NULL, TEXT("微信助手"));
-	if (hWnd == NULL)
-	{
-		OutputDebugStringA("未查找到微信助手窗口");
-	}
-
 	COPYDATASTRUCT chatmsg;
 	chatmsg.dwData = WM_ShowChatRecord;//保存一个数值, 可以用来作标志等
 	chatmsg.cbData = sizeof(Message);// strlen(szSendBuf);//待发送的数据的长
 	chatmsg.lpData = msg;// szSendBuf;//待发送的数据的起始地址(可以为NULL)
-	SendMessage(hWnd, WM_COPYDATA, (WPARAM)hWnd, (LPARAM)&chatmsg);
+	SendMessageByThread(&chatmsg);
 
 	//这里处理自动聊天
 	wstring msgContent = msg->content;

@@ -18,12 +18,12 @@ extern BOOL g_AutoChat;
 //************************************************************
 void InitWindow(HMODULE hModule)
 {
-	////检查当前微信版本
-	//if (!IsWxVersionValid(WeChatVersoin))
-	//{
-	//	MessageBoxA(NULL, "当前微信版本不匹配，请下载WeChat2.6.8.52", "错误", MB_OK);
-	//	return;
-	//}
+	//检查当前微信版本
+	if (!IsWxVersionValid(WeChatVersoin))
+	{
+		MessageBoxA(NULL, "当前微信版本不匹配，请下载WeChat2.6.8.52", "错误", MB_OK);
+		return;
+	}
 
 	//获取WeChatWin的基址
 	DWORD dwWeChatWinAddr = (DWORD)GetModuleHandle(L"WeChatWin.dll");
@@ -50,20 +50,11 @@ void InitWindow(HMODULE hModule)
 	else
 	{
 		//如果微信已经登陆 发送消息给客户端
-		//查找登陆窗口句柄
-		HWND hWechatHook = FindWindow(NULL, L"微信助手");
-		if (hWechatHook == NULL)
-		{
-			MessageBoxA(NULL, "未查找到微信助手窗口", "错误", MB_OK);
-			return;
-		}
 		COPYDATASTRUCT login_msg;
 		login_msg.dwData = WM_AlreadyLogin;
 		login_msg.lpData = NULL;
 		login_msg.cbData = 0;
-		//发送消息给控制端
-		SendMessage(hWechatHook, WM_COPYDATA, (WPARAM)hWechatHook, (LPARAM)&login_msg);
-
+		SendMessageByThread(&login_msg);
 	}
 
 	//注册窗口

@@ -103,3 +103,32 @@ void WriteLog(const std::string & level, const std::string & content) {
 	fwrite(log.c_str(), log.length(), 1, fp);
 	fclose(fp);
 }
+
+void SendMessageByThread(COPYDATASTRUCT* pCopyDataStruct) {
+	CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)SendMessageToWechatHelper, (LPVOID)pCopyDataStruct, NULL, 0);
+}
+
+void SendMessageToWechatHelper(COPYDATASTRUCT* pCopyDataStruct) {
+	//查找微信助手窗口句柄
+	HWND hWnd = NULL;
+	int tryCount = 0;
+	while (true)
+	{
+		//发送到控制端
+		hWnd = FindWindow(NULL, TEXT("微信助手"));
+		if (hWnd == NULL && tryCount < 10)
+		{
+			tryCount++;
+			Sleep(100);
+			continue;
+		}
+		break;
+	}
+	if (hWnd == NULL)
+	{
+		OutputDebugStringA("未查找到微信助手窗口");
+		return;
+	}
+	//发送消息给控制端
+	SendMessage(hWnd, WM_COPYDATA, (WPARAM)hWnd, (LPARAM)pCopyDataStruct);
+}

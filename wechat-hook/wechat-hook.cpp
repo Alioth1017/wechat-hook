@@ -174,13 +174,16 @@ void OnCopyData(HWND hDlg, COPYDATASTRUCT* pCopyDataStruct) {
 		wchar_t buff[0x1000] = { 0 };
 		swprintf_s(buff, L"{\"wxid\":\"%s\",\"content\":\"%s\",\"msgSender\":\"%s\",\"source\":\"%s\",\"type\":\"%s\"}", msg->wxid, msg->content, msg->msgSender, msg->source, msg->type);
 		OutputDebugStringW(buff);
-
+		OutputDebugString("\n");
 		std::string logContent = Wchar_tToString(buff);
 		WriteLog("INFO", logContent);
 	}
-	else {
+	else if (pCopyDataStruct->dwData == WM_Test) {
 		wchar_t buff[0x1000] = { 0 };
-		swprintf_s(buff, L"\n****收到消息****\n%s\n", (wchar_t*)pCopyDataStruct->lpData);
+		swprintf_s(buff, L"\n****收到[测试]消息****\n%s\n", (wchar_t*)pCopyDataStruct->lpData);
 		OutputDebugStringW(buff);
+	}
+	else {
+		OutputDebugStringW(L"\n****收到[未处理]消息****\n");
 	}
 }

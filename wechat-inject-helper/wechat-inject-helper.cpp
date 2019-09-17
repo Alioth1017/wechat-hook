@@ -7,6 +7,7 @@
 #include "wechat-info-get.h"
 #include "InitWeChat.h"
 #include <tchar.h>
+int msgCount = 0;
 
 // 读取内存数据
 VOID readWechatData(HWND hDlg) {
@@ -22,19 +23,17 @@ VOID readWechatData(HWND hDlg) {
 		AnsiToUnicode(asVer.data()));
 	SetDlgItemText(hDlg, SHOW_DATA, buff);
 
-	//查找微信小助手窗口句柄
-	HWND hWxHelper = FindWindow(NULL, L"微信小助手");
-	if (hWxHelper == NULL)
-	{
-		MessageBoxA(NULL, "未查找到微信小助手窗口", "错误", MB_OK);
-		return;
-	}
+	//查找微信助手窗口句柄
+	
 	//const wchar_t* sz = L"这是一条测试消息";
-	const wchar_t* sz = L"This is a test message from wechat-inject-helper.";
-	COPYDATASTRUCT msg;
-	msg.cbData = wcslen(sz)*2 + 1; // 宽字符需要*2,数组完整需要+1
-	msg.dwData = sizeof(COPYDATASTRUCT);
-	msg.lpData = (LPVOID)sz;
+	msgCount++;
+	wchar_t sz[0x1000] = { 0 };
+	swprintf_s(sz, L"[%d]This is a test message from dll.", msgCount);
+	//const wchar_t* sz = L"This is a test message from wechat-inject-helper.";
 	//发送消息给控制端
-	SendMessage(hWxHelper, WM_COPYDATA, (WPARAM)hWxHelper, (LPARAM)&msg);
+	COPYDATASTRUCT msg;
+	msg.dwData = WM_Test;
+	msg.cbData = wcslen(sz) * 2 + 1; // 宽字符需要*2,数组完整需要+1
+	msg.lpData = (LPVOID)sz;
+	SendMessageByThread(&msg);
 }

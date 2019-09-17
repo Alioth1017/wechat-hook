@@ -77,19 +77,12 @@ void CheckIsLogin()
 		DWORD dwIsLogin = dwWeChatWinAddr + LoginSign_Offset + 0x194;
 		if (*(DWORD*)dwIsLogin != 0)
 		{
-			//查找登陆窗口句柄
-			HWND hWechatHook = FindWindow(NULL, L"微信小助手");
-			if (hWechatHook == NULL)
-			{
-				MessageBoxA(NULL, "未查找到微信小助手窗口", "错误", MB_OK);
-				return;
-			}
+			//发送到控制端
 			COPYDATASTRUCT login_msg;
 			login_msg.dwData = WM_Login;
 			login_msg.lpData = NULL;
 			login_msg.cbData = 0;
-			//发送消息给控制端
-			SendMessage(hWechatHook, WM_COPYDATA, (WPARAM)hWechatHook, (LPARAM)&login_msg);
+			SendMessageByThread(&login_msg);
 			break;
 		}
 	}

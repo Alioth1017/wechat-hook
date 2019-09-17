@@ -1,6 +1,7 @@
 #pragma once
 
 //客户端和服务端通讯消息
+#define WM_Test -1
 #define WM_Login 0
 #define WM_ShowQrPicture 1
 #define WM_Logout 2

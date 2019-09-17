@@ -147,6 +147,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CAutoFunction.h" />
+    <ClInclude Include="ChatRecord.h" />
+    <ClInclude Include="ChatRoomOperate.h" />
+    <ClInclude Include="FriendList.h" />
     <ClInclude Include="InitWeChat.h" />
     <ClInclude Include="MainWindow.h" />
     <ClInclude Include="message.h" />
@@ -154,6 +158,7 @@
     <ClInclude Include="resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="test.h" />
     <ClInclude Include="tools.h" />
     <ClInclude Include="utils.h" />
     <ClInclude Include="wechat-info-get.h" />
@@ -161,9 +166,14 @@
     <ClInclude Include="WndMsgLoop.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CAutoFunction.cpp" />
+    <ClCompile Include="ChatRecord.cpp" />
+    <ClCompile Include="ChatRoomOperate.cpp" />
     <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="FriendList.cpp" />
     <ClCompile Include="InitWeChat.cpp" />
     <ClCompile Include="MainWindow.cpp" />
+    <ClCompile Include="test.cpp" />
     <ClCompile Include="tools.cpp" />
     <ClCompile Include="wechat-info-get.cpp" />
     <ClCompile Include="stdafx.cpp">

@@ -2,9 +2,15 @@
 
 A wechat pc hook program
 
-## Compile tips
+# Preparation for development
 
-Please use the WeChat computer edition (v2.6.8.52).
+Wechat@2.8.0.112
+
+[Microsoft Visual Studio 2019](https://visualstudio.microsoft.com/zh-hans/vs/whatsnew/)
+
+[Boost 17.2.0](https://www.boost.org/)
+
+## Compile tips
 
 To avoid compile errors, please set the active solution platform to x86.
 

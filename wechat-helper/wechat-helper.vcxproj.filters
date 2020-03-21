@@ -1,0 +1,144 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="公共函数">
+      <UniqueIdentifier>{81aac3cf-98eb-4838-94d5-75537c8ee9c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="初始化">
+      <UniqueIdentifier>{d1d3d389-d8d8-428d-b48b-c0db65e69bdf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="登录退出">
+      <UniqueIdentifier>{c83f189e-021a-4ca4-82d9-90f2bf165b87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="发送消息">
+      <UniqueIdentifier>{9c6aa297-40d9-4962-bf51-46f142ed025a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="个人信息">
+      <UniqueIdentifier>{3e6ce3fc-e282-41fb-aefa-b425f2b180d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="群组相关">
+      <UniqueIdentifier>{10d9fbff-d673-477b-b850-11d3de9628c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="数据库">
+      <UniqueIdentifier>{1e271f95-74a6-4f16-9242-bba3316253c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="联系人">
+      <UniqueIdentifier>{4c552aa7-6a7d-4b81-acc6-b6a0c83ac5ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="消息处理">
+      <UniqueIdentifier>{19edede4-8152-4e59-8e46-002510ddd4d0}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CJsonObject.hpp">
+      <Filter>公共函数</Filter>
+    </ClInclude>
+    <ClInclude Include="EVString.h">
+      <Filter>公共函数</Filter>
+    </ClInclude>
+    <ClInclude Include="Loger.h">
+      <Filter>公共函数</Filter>
+    </ClInclude>
+    <ClInclude Include="Util.h">
+      <Filter>公共函数</Filter>
+    </ClInclude>
+    <ClInclude Include="cJSON.h">
+      <Filter>公共函数</Filter>
+    </ClInclude>
+    <ClInclude Include="offset.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="struct.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Init.h">
+      <Filter>初始化</Filter>
+    </ClInclude>
+    <ClInclude Include="Command.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="WSClient.h">
+      <Filter>公共函数</Filter>
+    </ClInclude>
+    <ClInclude Include="Login.h">
+      <Filter>登录退出</Filter>
+    </ClInclude>
+    <ClInclude Include="SendMsg.h">
+      <Filter>发送消息</Filter>
+    </ClInclude>
+    <ClInclude Include="UserInfo.h">
+      <Filter>个人信息</Filter>
+    </ClInclude>
+    <ClInclude Include="ChatRoom.h">
+      <Filter>群组相关</Filter>
+    </ClInclude>
+    <ClInclude Include="Sql.h">
+      <Filter>数据库</Filter>
+    </ClInclude>
+    <ClInclude Include="ContactList.h">
+      <Filter>联系人</Filter>
+    </ClInclude>
+    <ClInclude Include="ChatRecord.h">
+      <Filter>消息处理</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="dllmain.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CJsonObject.cpp">
+      <Filter>公共函数</Filter>
+    </ClCompile>
+    <ClCompile Include="EVString.cpp">
+      <Filter>公共函数</Filter>
+    </ClCompile>
+    <ClCompile Include="Loger.cpp">
+      <Filter>公共函数</Filter>
+    </ClCompile>
+    <ClCompile Include="Util.cpp">
+      <Filter>公共函数</Filter>
+    </ClCompile>
+    <ClCompile Include="cJSON.c">
+      <Filter>公共函数</Filter>
+    </ClCompile>
+    <ClCompile Include="Init.cpp">
+      <Filter>初始化</Filter>
+    </ClCompile>
+    <ClCompile Include="WSClient.cpp">
+      <Filter>公共函数</Filter>
+    </ClCompile>
+    <ClCompile Include="Login.cpp">
+      <Filter>登录退出</Filter>
+    </ClCompile>
+    <ClCompile Include="SendMsg.cpp">
+      <Filter>发送消息</Filter>
+    </ClCompile>
+    <ClCompile Include="UserInfo.cpp">
+      <Filter>个人信息</Filter>
+    </ClCompile>
+    <ClCompile Include="ChatRoom.cpp">
+      <Filter>群组相关</Filter>
+    </ClCompile>
+    <ClCompile Include="Sql.cpp">
+      <Filter>数据库</Filter>
+    </ClCompile>
+    <ClCompile Include="ContactList.cpp">
+      <Filter>联系人</Filter>
+    </ClCompile>
+    <ClCompile Include="ChatRecord.cpp">
+      <Filter>消息处理</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

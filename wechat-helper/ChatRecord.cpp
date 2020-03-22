@@ -58,8 +58,7 @@ VOID RecieveMessageJump(DWORD esp)
 	msg->content = (wchar_t*)(*((LPVOID*)(*msgAddress + 0x160)));
 	msg->senderWxid = (wchar_t*)(*((LPVOID*)(*msgAddress + 0x210)));
 	msg->unkonwStr = (wchar_t*)(*((LPVOID*)(*msgAddress + 0x224)));
-	ReceiveMsgProc(msg);
-	//HANDLE hThread = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)ReceiveMsgProc, msg, 0, NULL);
+	HANDLE hThread = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)ReceiveMsgProc, msg, 0, NULL);
 }
 
 

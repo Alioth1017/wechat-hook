@@ -77,14 +77,7 @@ int RunSql(string dbName, string sqlStr, sqlite3_callback callBack, char*& sqlEr
 		if (StrStrA(db.path, dbName.c_str()))
 		{
 			sqlResult = "";
-			try
-			{
-				sqlite3_exec(db.handler, (char*)sqlStr.c_str(), callBack, NULL, &sqlErrmsg);
-			}
-			catch (...)
-			{
-				
-			}
+			sqlite3_exec(db.handler, (char*)sqlStr.c_str(), callBack, NULL, &sqlErrmsg);
 			return 0;
 		}
 	}

@@ -19,12 +19,12 @@ namespace wechat_hook
             WeChat.ReceiveOtherIMEvent += WeChat_ReceiveOtherIMEvent;
             WeChat.WeChatInitEvent += WeChat_WeChatInitEvent;
             WeChat.ConnetionCloseEvent += WeChat_ConnetionCloseEvent;
+            OpenWeChat();
             if (args.Contains("--server"))
             {
                 WeChat.StartServer();
                 while (Console.ReadKey().Key.ToString() != "C") { }
             }
-            OpenWeChat();
         }
 
         static void WeChat_LogEvent(object sender, string e)

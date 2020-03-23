@@ -4,12 +4,19 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <RootNamespace>wechat_hook</RootNamespace>
+    <PackageIcon></PackageIcon>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <PlatformTarget>x86</PlatformTarget>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="logo.jpg" />
+    <None Remove="logo.jpg" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Fleck" Version="1.1.0" />
@@ -20,6 +27,13 @@
   <ItemGroup>
     <Folder Include="Models\" />
     <Folder Include="WinApi\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include=".\">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>

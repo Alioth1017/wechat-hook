@@ -17,7 +17,8 @@ namespace wechat_hook
     public class WeChatSdk
     {
         private static string dllName = "wechat-helper.dll";
-        private static string dllPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, dllName);
+        //private static string dllPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, dllName);
+        private static string dllPath = Path.Combine(Directory.GetCurrentDirectory(), dllName);
         private Dictionary<int, UserConnection> userConnections = new Dictionary<int, UserConnection>();
         private string url = "ws://127.0.0.1:8181";
         private WebSocketServer socketServer;
@@ -26,15 +27,10 @@ namespace wechat_hook
         private static Dictionary<string, List<ResponsHandlerCallBackDelegate>> incomingResponsHandlers = new Dictionary<string, List<ResponsHandlerCallBackDelegate>>();
         private static object _syncRoot = new object();
 
-        public WeChatSdk()
-        {
-            StartServer();
-        }
-
         /// <summary 
         /// 开启服务
         /// </summary>
-        private void StartServer()
+        public void StartServer()
         {
             if (socketServer != null && socketServer.ListenerSocket.Connected) return;
             socketServer = new WebSocketServer(url);
@@ -302,7 +298,7 @@ namespace wechat_hook
         public void InjectDll(int processId)
         {
             if (!File.Exists(dllPath))
-                throw new Exception("dll文件不存在。");
+                throw new Exception("dll文件不存在。" + dllPath);
 
 
             //1) 遍历系统中的进程，找到微信进程（CreateToolhelp32Snapshot、Process32Next）

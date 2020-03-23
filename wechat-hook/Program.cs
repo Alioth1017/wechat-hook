@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading;
 
 namespace wechat_hook
@@ -18,8 +19,12 @@ namespace wechat_hook
             WeChat.ReceiveOtherIMEvent += WeChat_ReceiveOtherIMEvent;
             WeChat.WeChatInitEvent += WeChat_WeChatInitEvent;
             WeChat.ConnetionCloseEvent += WeChat_ConnetionCloseEvent;
+            if (args.Contains("--server"))
+            {
+                WeChat.StartServer();
+                while (Console.ReadKey().Key.ToString() != "C") { }
+            }
             OpenWeChat();
-            while (Console.ReadKey().Key.ToString() != "C") { }
         }
 
         static void WeChat_LogEvent(object sender, string e)

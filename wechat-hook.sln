@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.29911.84
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "wechat-helper", "wechat-helper\wechat-helper.vcxproj", "{BCAC28AB-794C-4819-8ED4-090B398E6525}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wechat-hook", "wechat-hook\wechat-hook.csproj", "{F0117E68-7A99-4D97-A640-A4C66D8E9CB2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "wechat-hook", "wechat-hook\wechat-hook.csproj", "{F0117E68-7A99-4D97-A640-A4C66D8E9CB2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

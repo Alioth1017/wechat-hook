@@ -3,3 +3,5 @@
 /wechat-helper/Debug/
 /wechat-hook/bin/Debug/
 /wechat-hook/obj/
+/wechat-hook/bin/
+/wechat-helper/Release/

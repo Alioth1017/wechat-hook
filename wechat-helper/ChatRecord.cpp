@@ -25,25 +25,20 @@ string Wstr2Str(wstring wstr)
 void ReceiveMsgProc(LPVOID Context)
 {
 	recieveMsgStruct* msg = (recieveMsgStruct*)Context;
-#if DEBUG
-	WriteInfo("收到消息1");
-#endif // DEBUG
-
+	//WriteInfo("收到消息1");
 	//todo:处理自动功能(自动收款、自动加名片等)
 	neb::CJsonObject data;
 	//todo:fromWxid、senderWxid某些特殊消息有异常
-#if DEBUG
-	WriteInfo("收到消息2");
-#endif // DEBUG
+
+	//WriteInfo("收到消息2");
 	data.Add("Type", msg->type);
+	data.Add("IsSelf", msg->isSelf);
 	if (msg->fromWxid != NULL) { data.Add("FromWxid", EVString::w2a(msg->fromWxid)); }
 	if (msg->senderWxid != NULL) { data.Add("SendWxid", EVString::w2a(msg->senderWxid)); }
 	if (msg->content != NULL) { data.Add("Content", EVString::w2a(msg->content)); }
 	if (msg->unkonwStr != NULL) { data.Add("Other", EVString::w2a(msg->unkonwStr)); }
 	delete msg;
-#if DEBUG
-	WriteInfo("收到消息3");
-#endif // DEBUG
+	//WriteInfo("收到消息3");
 	Send(Cmd_ReceiveMessage, data);
 }
 
@@ -54,7 +49,7 @@ void ReceiveMsgProc(LPVOID Context)
  */
 VOID RecieveMessageJump(DWORD esp)
 {
-	WriteInfo("收到消息");
+	//WriteInfo("收到消息");
 	DWORD* msgAddress = (DWORD*)(esp + 0x20);
 	recieveMsgStruct* msg = new recieveMsgStruct;
 	msg->type = (int)(*((DWORD*)(*msgAddress + 0x128)));
@@ -63,7 +58,8 @@ VOID RecieveMessageJump(DWORD esp)
 	msg->content = (wchar_t*)(*((LPVOID*)(*msgAddress + 0x160)));
 	msg->senderWxid = (wchar_t*)(*((LPVOID*)(*msgAddress + 0x210)));
 	msg->unkonwStr = (wchar_t*)(*((LPVOID*)(*msgAddress + 0x224)));
-	HANDLE hThread = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)ReceiveMsgProc, msg, 0, NULL);
+	//HANDLE hThread = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)ReceiveMsgProc, msg, 0, NULL);
+	ReceiveMsgProc(msg);// 此处暂不使用多线程 防止地址内容被释放
 }
 
 

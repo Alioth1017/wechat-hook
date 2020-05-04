@@ -133,7 +133,13 @@ void RecvMessage(client* wsclient, websocketpp::connection_hdl hdl, message_ptr 
 		json.Get("Callback", callback);
 		if (!json.Get("Code", code)) return;
 		neb::CJsonObject  respons;
-
+		string wxid = "";
+		json.Get("WxId", wxid);
+		string message = "";
+		json.Get("Message", message);
+		string filepath = "";
+		json.Get("FilePath", filepath);
+		
 		switch (code)
 		{
 		case Cmd_Init:
@@ -156,13 +162,13 @@ void RecvMessage(client* wsclient, websocketpp::connection_hdl hdl, message_ptr 
 			GetContactList();
 			break;
 		case Cmd_SendTextMessage:
-			SendTextMsg(EVString::a2w("WxId"), EVString::a2w("Message"));
+			SendTextMsg(EVString::a2w(wxid.c_str()), EVString::a2w(message.c_str()));
 			break;
 		case Cmd_SendFileMessage:
-			SendAttachMsg(EVString::a2w("WxId"), EVString::a2w("FilePath"));
+			SendAttachMsg(EVString::a2w(wxid.c_str()), EVString::a2w(filepath.c_str()));
 			break;
 		case Cmd_SendImageMessage:
-			SendImageMsg(EVString::a2w("WxId"), EVString::a2w("FilePath"));
+			SendImageMsg(EVString::a2w(wxid.c_str()), EVString::a2w(filepath.c_str()));
 			break;
 		case Cmd_SendAtMsg:
 			SendChatroomAtMsg(EVString::a2w("ChatRoomId"), EVString::a2w("MemberId"), EVString::a2w("MemberNick"), EVString::a2w("Message"));

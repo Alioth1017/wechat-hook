@@ -13,18 +13,26 @@ namespace wechat_hook
         static List<Contact> Contacts = new List<Contact>();
         static void Main(string[] args)
         {
+            Console.WriteLine(string.Join(" ", args));
+            var arguments = CommandLineArgumentParser.Parse(args);
             WeChat = new WeChatSdk();
             WeChat.LogEvent += WeChat_LogEvent;
             WeChat.ReceiveContactEvent += WeChat_ReceiveContactEvent;
             WeChat.ReceiveOtherIMEvent += WeChat_ReceiveOtherIMEvent;
             WeChat.WeChatInitEvent += WeChat_WeChatInitEvent;
             WeChat.ConnetionCloseEvent += WeChat_ConnetionCloseEvent;
-            OpenWeChat();
-            if (args.Contains("--server"))
+            int startCount = 0;
+            if (arguments.Has("--count"))
+            {
+                int.TryParse(arguments.Get("--count").Next, out startCount);
+            }
+            OpenWeChat(startCount > 1 ? startCount : 1);
+            if (arguments.Has("--server"))
             {
                 WeChat.StartServer();
-                while (Console.ReadKey().Key.ToString() != "C") { }
+                while (Console.ReadKey().Key.ToString().ToLower() != "c") { }
             }
+            Console.ReadKey();
         }
 
         static void WeChat_LogEvent(object sender, string e)
@@ -68,18 +76,20 @@ namespace wechat_hook
         {
             ShowLog($"[日志]websocket连接断开,请检查微信是否正常运行。");
         }
-        static void OpenWeChat()
+        static void OpenWeChat(int count)
         {
             try
             {
-                var ret = WeChat.OpenWechat();
+                var ret = WeChat.OpenWechat(count);
+                if (!ret) return;
                 var list = Process.GetProcessesByName("WeChat");
-                if (list.Length > 0)
-                    ret = list[0].Id;
-                if (ret == 0) return;
-                if (!WeChat.IsInjected(ret))
+                if (list == null || list.Length <= 0) return;
+                foreach (var item in list)
                 {
-                    WeChat.InjectDll(pid);
+                    if (!WeChat.IsInjected(item.Id))
+                    {
+                        WeChat.InjectDll(item.Id);
+                    }
                 }
             }
             catch (Exception ex)

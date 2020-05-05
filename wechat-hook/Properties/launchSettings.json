@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "wechat-hook": {
+      "commandName": "Project",
+      "commandLineArgs": "--count 2"
+    }
+  }
+}

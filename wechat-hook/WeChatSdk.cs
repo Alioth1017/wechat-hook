@@ -302,20 +302,22 @@ namespace wechat_hook
 
 
             //1) 遍历系统中的进程，找到微信进程（CreateToolhelp32Snapshot、Process32Next）
-            Process[] processes = Process.GetProcesses();
-            Process WxProcess = null;
-            foreach (Process process in processes)
-            {
-                if (process.ProcessName.ToLower() == "WeChat".ToLower())
-                {
-                    WxProcess = process;
-                    foreach (ProcessModule processModule in WxProcess.Modules)
-                    {
-                        if (processModule.ModuleName == dllName) return;
-                    }
-                    break;
-                }
-            }
+            //Process[] processes = Process.GetProcesses();
+            //Process WxProcess = null;
+            //foreach (Process process in processes)
+            //{
+            //    if (process.ProcessName.ToLower() == "WeChat".ToLower())
+            //    {
+            //        WxProcess = process;
+            //        foreach (ProcessModule processModule in WxProcess.Modules)
+            //        {
+            //            if (processModule.ModuleName == dllName) return;
+            //        }
+            //        break;
+            //    }
+            //}
+
+            var WxProcess = Process.GetProcessById(processId);
 
             if (WxProcess == null)
             {
@@ -364,7 +366,7 @@ namespace wechat_hook
         /// 打开微信
         /// </summary>
         /// <returns></returns>
-        public int OpenWechat()
+        public bool OpenWechat(int count = 1)
         {
             //在注册表中查找微信
             //计算机\HKEY_CURRENT_USER\Software\Tencent\WeChat
@@ -388,11 +390,14 @@ namespace wechat_hook
             }
             if (!string.IsNullOrEmpty(WxPath))
             {
-                var process = Process.Start(WxPath);
+                for (int i = 0; i < count; i++)
+                {
+                    Process.Start(WxPath);
+                }
                 Thread.Sleep(500);
-                return process.Id;
+                return true;
             }
-            return 0;
+            return false;
         }
 
 

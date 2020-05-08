@@ -133,13 +133,31 @@ void RecvMessage(client* wsclient, websocketpp::connection_hdl hdl, message_ptr 
 		json.Get("Callback", callback);
 		if (!json.Get("Code", code)) return;
 		neb::CJsonObject  respons;
-		string wxid = "";
-		json.Get("WxId", wxid);
-		string message = "";
-		json.Get("Message", message);
-		string filepath = "";
-		json.Get("FilePath", filepath);
-		
+		string WxId = "";
+		json.Get("WxId", WxId);
+		string FromWxId = "";
+		json.Get("FromWxId", FromWxId);
+		string Message = "";
+		json.Get("Message", Message);
+		string FilePath = "";
+		json.Get("FilePath", FilePath);
+		string ChatRoomId = "";
+		json.Get("ChatRoomId", ChatRoomId);
+		string ChatRoomName = "";
+		json.Get("ChatRoomName", ChatRoomName);
+		string MemberId = "";
+		json.Get("MemberId", MemberId);
+		string MemberWxId = "";
+		json.Get("MemberWxId", MemberWxId);
+		string MemberNick = "";
+		json.Get("MemberNick", MemberNick);
+		string RecverWxid = "";
+		json.Get("RecverWxid", RecverWxid);
+		string XML = "";
+		json.Get("XML", XML);
+		string Announcement = "";
+		json.Get("Announcement", Announcement);
+
 		switch (code)
 		{
 		case Cmd_Init:
@@ -147,6 +165,7 @@ void RecvMessage(client* wsclient, websocketpp::connection_hdl hdl, message_ptr 
 			break;
 		case Cmd_CheckLoginStatus://检查登录状态:
 			respons.Add("Status", CheckLogin());
+			respons.Add("QrCodeStr", GetQrCodeStr());
 			Send(Cmd_CheckLoginStatus, respons, callback);
 			break;
 		case Cmd_GetUser://获取用户信息
@@ -162,42 +181,44 @@ void RecvMessage(client* wsclient, websocketpp::connection_hdl hdl, message_ptr 
 			GetContactList();
 			break;
 		case Cmd_SendTextMessage:
-			SendTextMsg(EVString::a2w(wxid.c_str()), EVString::a2w(message.c_str()));
+			SendTextMsg(EVString::a2w(WxId.c_str()), EVString::a2w(Message.c_str()));
 			break;
 		case Cmd_SendFileMessage:
-			SendAttachMsg(EVString::a2w(wxid.c_str()), EVString::a2w(filepath.c_str()));
+			SendAttachMsg(EVString::a2w(WxId.c_str()), EVString::a2w(FilePath.c_str()));
 			break;
 		case Cmd_SendImageMessage:
-			SendImageMsg(EVString::a2w(wxid.c_str()), EVString::a2w(filepath.c_str()));
+			SendImageMsg(EVString::a2w(WxId.c_str()), EVString::a2w(FilePath.c_str()));
 			break;
 		case Cmd_SendAtMsg:
-			SendChatroomAtMsg(EVString::a2w("ChatRoomId"), EVString::a2w("MemberId"), EVString::a2w("MemberNick"), EVString::a2w("Message"));
+			SendChatroomAtMsg(EVString::a2w(ChatRoomId.c_str()), EVString::a2w(MemberId.c_str()), EVString::a2w(MemberNick.c_str()), EVString::a2w(Message.c_str()));
 			break;
 		case Cmd_SendXmlCard:
-			SendXmlCard(EVString::a2w("RecverWxid"), EVString::a2w("XML"));
+			SendXmlCard(EVString::a2w(RecverWxid.c_str()), EVString::a2w(XML.c_str()));
 			break;
 		case Cmd_SendXmlArticle:
-			SendXmlArticle(EVString::a2w("RecverWxid"), EVString::a2w("FromWxId"), EVString::a2w("XML"));
+			SendXmlArticle(EVString::a2w(RecverWxid.c_str()), EVString::a2w(FromWxId.c_str()), EVString::a2w(XML.c_str()));
 			break;
 		case Cmd_SetRoomName:
-			SetChatoomName(EVString::a2w("ChatRoomId"), EVString::a2w("ChatRoomName"));
+			SetChatoomName(EVString::a2w(ChatRoomId.c_str()), EVString::a2w(ChatRoomName.c_str()));
 			break;
 		case Cmd_SetChatRoomAnnouncement:
-			SetChatroomAnnouncement(EVString::a2w("ChatRoomId"), EVString::a2w("Announcement"));
+			SetChatroomAnnouncement(EVString::a2w(ChatRoomId.c_str()), EVString::a2w(Announcement.c_str()));
 			break;
 		case Cmd_AddChatRoomMember:
-			AddChatroomMember(EVString::a2w("ChatRoomId"), EVString::a2w("Wxid"));
+			AddChatroomMember(EVString::a2w(ChatRoomId.c_str()), EVString::a2w(WxId.c_str()));
 			break;
 		case Cmd_DeleteChatRoomMember:
-			DeleteChatroomMember(EVString::a2w("ChatRoomId"), EVString::a2w("MemberWxId"));
+			DeleteChatroomMember(EVString::a2w(ChatRoomId.c_str()), EVString::a2w(MemberWxId.c_str()));
 			break;
 		case Cmd_GetChatRoomMember:
-			GetChatroomUser(EVString::a2w("ChatRoomId"), callback);
+			GetChatroomUser(EVString::a2w(ChatRoomId.c_str()), callback);
 			break;
 		case Cmd_QuitChatRoom:
-			QuitChatRoom(EVString::a2w("ChatRoomId"));
+			QuitChatRoom(EVString::a2w(ChatRoomId.c_str()));
 			break;
-
+		case Cmd_GotoQrCode:
+			GotoQrCode();
+			break;
 		}
 		json.Clear();
 	}

@@ -22,3 +22,10 @@ void LogoutWeChat();
  * @return void
  */
 void GotoQrCode();
+
+/**
+ * »ñÈ¡µÇÂ¼Á´½Ó
+ * @param
+ * @return char*
+ */
+char* GetQrCodeStr();

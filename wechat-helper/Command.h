@@ -17,4 +17,6 @@
 #define Cmd_DeleteChatRoomMember 14//删除群成员
 #define Cmd_GetChatRoomMember 15//获取群成员
 #define Cmd_QuitChatRoom 16//退出群
+#define Cmd_GotoQrCode 17//刷新登录二维码
+
 

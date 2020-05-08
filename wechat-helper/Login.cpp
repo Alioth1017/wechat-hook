@@ -44,5 +44,17 @@ VOID GotoQrCode()
 		mov ecx, eax;
 		call dwCallAddr2;
 	}
+}
 
+/**
+ * »ñÈ¡µÇÂ¼Á´½Ó
+ * @param
+ * @return char*
+ */
+char* GetQrCodeStr() {
+	char qrcodeStr[500] = { 0 };
+	if (!CheckLogin()) {
+		sprintf_s(qrcodeStr, "http://weixin.qq.com/x/%s", (char*)*((DWORD*)(GetWeChatWinBase() + LOGINQRCODESTR)));
+	}
+	return qrcodeStr;
 }

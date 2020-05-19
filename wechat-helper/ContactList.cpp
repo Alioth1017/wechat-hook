@@ -26,5 +26,5 @@ INT GetContactCallBack(void* para, int nColumn, char** colValue, char** colName)
 void GetContactList()
 {
 	char* sqlErrmsg = NULL;
-	RunSql("MicroMsg.db", "select Contact.UserName,Contact.Alias,Contact.NickName,Contact.Remark,ContactHeadImgUrl.BigHeadImgUrl from Contact LEFT OUTER JOIN ContactHeadImgUrl ON Contact.UserName = ContactHeadImgUrl.usrName", GetContactCallBack, sqlErrmsg);
+	RunSql("MicroMsg.db", "select Contact.UserName,Contact.Alias,Contact.NickName,Contact.Remark,Contact.Type,Contact.VerifyFlag,ContactHeadImgUrl.BigHeadImgUrl from Contact LEFT OUTER JOIN ContactHeadImgUrl ON Contact.UserName = ContactHeadImgUrl.usrName", GetContactCallBack, sqlErrmsg);
 }

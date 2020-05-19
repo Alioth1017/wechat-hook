@@ -18,5 +18,8 @@
 #define Cmd_GetChatRoomMember 15//获取群成员
 #define Cmd_QuitChatRoom 16//退出群
 #define Cmd_GotoQrCode 17//刷新登录二维码
+#define Cmd_LogoutWeChat 18//退出登录
+#define Cmd_RunSql 19//执行SQL
+
 
 

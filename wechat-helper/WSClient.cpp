@@ -157,6 +157,8 @@ void RecvMessage(client* wsclient, websocketpp::connection_hdl hdl, message_ptr 
 		json.Get("XML", XML);
 		string Announcement = "";
 		json.Get("Announcement", Announcement);
+		string RunSqlStr = "";
+		json.Get("RunSqlStr", RunSqlStr);
 
 		switch (code)
 		{
@@ -219,6 +221,12 @@ void RecvMessage(client* wsclient, websocketpp::connection_hdl hdl, message_ptr 
 		case Cmd_GotoQrCode:
 			GotoQrCode();
 			break;
+		case Cmd_LogoutWeChat:
+			LogoutWeChat();
+			break;
+		case Cmd_RunSql:
+			char* sqlErrmsg = NULL;
+			RunSql("MicroMsg.db", RunSqlStr, RunSqlSendCallBack, sqlErrmsg);
 		}
 		json.Clear();
 	}

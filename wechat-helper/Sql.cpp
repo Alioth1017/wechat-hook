@@ -7,6 +7,9 @@
 #include "Util.h"
 #include <list>
 #pragma comment(lib,"Shlwapi.lib")
+#include "CJsonObject.hpp"
+#include <WSClient.h>
+#include <Command.h>
 using namespace std;
 string sqlResult = "";
 DWORD  databaseJumpAddr;
@@ -99,5 +102,21 @@ INT RunSqlCallBack(void* para, int nColumn, char** colValue, char** colName)
 	{
 		sqlResult = "查询结果为空，请检查SQL语句是否在正确";
 	}
+	return 0;
+}
+
+
+INT RunSqlSendCallBack(void* para, int nColumn, char** colValue, char** colName)
+{
+	neb::CJsonObject respons;
+
+	for (int i = 0; i < nColumn; i++)
+	{
+		char data[10000] = { 0 };
+		sprintf_s(data, "%s", colValue[i]);
+
+		respons.Add(*(colName + i), data);
+	}
+	Send(Cmd_RunSql, respons);
 	return 0;
 }

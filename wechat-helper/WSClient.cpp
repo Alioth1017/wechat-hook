@@ -84,7 +84,7 @@ Start:
 void StopWebSocket() {
 	try
 	{
-		WriteInfo("WebSocket Stop.");
+		//WriteInfo("WebSocket Stop.");
 
 		if (con != NULL && con->get_state() == websocketpp::session::state::value::open)
 		{
